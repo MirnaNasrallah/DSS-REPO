@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        Reporting solution by Creative Tim
+        Reporting solution
     </title>
     <!--     Fonts and icons     -->
     <link href="{{ asset('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700') }}" rel="stylesheet" />
@@ -103,7 +103,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Connections Tables</span>
+                        <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                 </li>
                 {{-- <li class="nav-item mt-3">
@@ -231,47 +231,45 @@
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" >Pages</a>
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark">Pages</a>
                         </li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Connections Table</li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Created Table</li>
                     </ol>
-                    <h6 class="font-weight-bolder mb-0">Connections Table</h6>
+                    <h6 class="font-weight-bolder mb-0">Created Table</h6>
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                         <div class="input-group">
-                            <span class="input-group-text text-body"><i class="fas fa-search"
-                                    aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" placeholder="Type here...">
+
                         </div>
                     </div>
                     <ul class="navbar-nav  justify-content-end">
-                        <li class="nav-item d-flex align-items-center ms-2">
+                        <li class="nav-item d-flex align-items-center ms-4">
                             <a href="{{ url('view_connections') }}" class="nav-link text-body font-weight-bold px-0">
 
                                 <span class="d-sm-inline d-none">Connections</span>
                             </a>
                         </li>
-                        <li class="nav-item d-flex align-items-center ms-2">
-                            <a href="{{ url('view_createdTables') }}" class="nav-link text-body font-weight-bold px-0">
+                        <li class="nav-item d-flex align-items-center ms-4">
+                            <a href="{{ url('view_createdTables') }}"
+                                class="nav-link text-body font-weight-bold px-0">
 
                                 <span class="d-sm-inline d-none">Tables</span>
                             </a>
                         </li>
-                        <li class="nav-item d-flex align-items-center ms-2">
+                        <li class="nav-item d-flex align-items-center ms-4">
                             <a href="{{ url('view_repGroups') }}" class="nav-link text-body font-weight-bold px-0">
 
                                 <span class="d-sm-inline d-none">Groups</span>
                             </a>
                         </li>
-                        <div class="border rounded-2  ms-2">
-                            <li class="nav-item d-flex align-items-center">
-                                <a href="{{ url('view_feeds') }}" class="nav-link text-body font-weight-bold px-0">
 
-                                    <span class="d-sm-inline d-none">Feeds</span>
-                                </a>
-                            </li>
-                        </div>
+                        <li class="nav-item d-flex align-items-center ms-4">
+                            <a href="{{ url('view_feeds') }}" class="nav-link text-body font-weight-bold px-0">
+
+                                <span class="d-sm-inline d-none">Feeds</span>
+                            </a>
+                        </li>
 
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
@@ -283,93 +281,11 @@
                             </a>
                         </li>
                         <li class="nav-item px-3 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body p-0">
-                                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                            </a>
+
                         </li>
                         <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-bell cursor-pointer"></i>
-                            </a>
-                            <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
-                                aria-labelledby="dropdownMenuButton">
-                                <li class="mb-2">
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                                        <div class="d-flex py-1">
-                                            <div class="my-auto">
-                                                <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                    <span class="font-weight-bold">New message</span> from Laur
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 ">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    13 minutes ago
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="mb-2">
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                                        <div class="d-flex py-1">
-                                            <div class="my-auto">
-                                                <img src="../assets/img/small-logos/logo-spotify.svg"
-                                                    class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                    <span class="font-weight-bold">New album</span> by Travis Scott
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 ">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    1 day
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                                        <div class="d-flex py-1">
-                                            <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                                <svg width="12px" height="12px" viewBox="0 0 43 36"
-                                                    version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <title>credit-card</title>
-                                                    <g stroke="none" stroke-width="1" fill="none"
-                                                        fill-rule="evenodd">
-                                                        <g transform="translate(-2169.000000, -745.000000)"
-                                                            fill="#FFFFFF" fill-rule="nonzero">
-                                                            <g transform="translate(1716.000000, 291.000000)">
-                                                                <g transform="translate(453.000000, 454.000000)">
-                                                                    <path class="color-background"
-                                                                        d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                        opacity="0.593633743"></path>
-                                                                    <path class="color-background"
-                                                                        d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                                    </path>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                    Payment successfully completed
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 ">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    2 days
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
+
+
                         </li>
                     </ul>
                 </div>
@@ -382,11 +298,11 @@
                     <div class="card mb-4">
 
                         <div class="card-header d-flex">
-                            <h3 class="text-primary">Connections table</h3>
-                            <div style="margin-left:60%">
+                            <h3 class="text-primary">Created table</h3>
+                            {{-- <div style="margin-left:60%">
                                 <a class="btn bg-gradient-primary" href="{{ url('create_connection') }}"><i
                                         class="fas fa-plus"></i>&nbsp;&nbsp;Add</a>
-                            </div>
+                            </div> --}}
                         </div>
                         {{-- <div class="col-11 text-end">
 
@@ -397,116 +313,34 @@
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Connection Name</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Connection Engine</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Database</th>
-
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                User</th>
-
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Created</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Last Updated</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Status</th>
-                                            <th class="text-secondary opacity-7"></th>
-                                            <th class="text-secondary opacity-7"></th>
-
+                                            @foreach ($columns_names as $column)
+                                                <th
+                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                    {{ $column }}</th>
+                                            @endforeach
                                         </tr>
+
                                     </thead>
                                     <tbody>
-                                        @foreach ($connections as $connection)
+                                        {{-- {{ dd($table_data,$columns)}} --}}
+                                        @foreach ($data_values as $key => $data)
                                             <tr>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div style="margin-right: 10%"><br></div>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <a href="{{ url('/view_connection')}}/{{ $connection->id }}"><h6 class="mb-0 text-sm link-primary">{{ $connection->connection_name }}</a>
+                                                @foreach ($data as $col => $val)
+                                                    {{-- {{ dd($col, $val) }} --}}
 
-                                                            </h6>
 
+                                                    <td>
+                                                        <div class="d-flex px-2 py-1">
+
+                                                            <div class="d-flex flex-column justify-content-center">
+                                                                <p class="text-sm font-weight-bold mb-0">
+                                                                    {{ $val }}</p>
+
+
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <p class="text-sm font-weight-bold mb-0">
-                                                                {{ $connection->connection_driver }}</p>
-
-
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <div class="d-flex px-2 py-1">
-
-                                                        <div class="d-flex flex-column justify-content-center ms-3">
-                                                            <span
-                                                                class="text-xs font-weight-bold">{{ $connection->database_name }}</span>
-                                                            </h6>
-
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <div class="d-flex px-2 py-1">
-
-                                                        <div class="d-flex flex-column justify-content-center ms-3">
-                                                            <span
-                                                                class="text-xs font-weight-bold">{{ $connection->connection_username }}</span>
-                                                            </h6>
-
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span
-                                                        class="text-secondary text-xs font-weight-bold">{{ $connection->created_at }}</span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span
-                                                        class="text-secondary text-xs font-weight-bold">{{ $connection->updated_at }}</span>
-                                                </td>
-                                                @if ($connection->configured)
-                                                    <td class="align-middle text-center text-sm">
-                                                        <span
-                                                            class="badge badge-sm bg-gradient-success">Connected</span>
                                                     </td>
-                                                @else
-                                                    <td class="align-middle text-center text-sm">
-                                                        <span
-                                                            class="badge badge-sm bg-gradient-danger">Disconnected</span>
-                                                    </td>
-                                                @endif
-
-                                                <td class="align-middle">
-                                                    <a href="{{ url('edit_connection') }}/{{ $connection->id }}"
-                                                        class="text-primary font-weight-bold text-xs"
-                                                        data-toggle="tooltip" data-original-title="Edit">
-                                                        Edit
-                                                    </a>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <a href="{{ url('deleteConnection') }}/{{ $connection->id }}"
-                                                        class="text-danger font-weight-bold text-xs"
-                                                        data-toggle="tooltip" data-original-title="Delete">
-                                                        Remove
-                                                    </a>
-                                                </td>
-
+                                                @endforeach
                                             </tr>
                                         @endforeach
                                     </tbody>

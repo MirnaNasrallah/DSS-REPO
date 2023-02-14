@@ -30,7 +30,7 @@ class TableController extends Controller
     {
         $table_owner = 'DSS';
 
-        $source_connection = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($src_id);
+        $source_connection = DB::connection('oracle')->table('CT_CONNECTIONS')->find($src_id);
 
         $driver = $source_connection->connection_driver;
         $connection_name = $source_connection->connection_name;
@@ -141,8 +141,8 @@ class TableController extends Controller
                 $group_name = strtoupper($new_table_name . "_MN");
             }
             $rep_insert_stmt = "insert into CT_REP_GROUPS (group_name, group_mode,  connection_id, created_at, updated_at) values ('" . $group_name . "','" . $group_mode . "','" . $src_id . "', SYSDATE, SYSDATE)";
-            DB::connection('mysql2')->insert($rep_insert_stmt);
-            $new_rep_group_id = DB::connection('mysql2')->table('CT_REP_GROUPS')->where('group_name', $group_name)->pluck('id')->first();
+            DB::connection('oracle')->insert($rep_insert_stmt);
+            $new_rep_group_id = DB::connection('oracle')->table('CT_REP_GROUPS')->where('group_name', $group_name)->pluck('id')->first();
 
             foreach ($table_array as $row) {
                 //INSERT INTO CT_MAPPINGS ROW BY ROW
@@ -151,10 +151,10 @@ class TableController extends Controller
                 $row_string = implode("','", $row);
                 // dd($row_string);
                 $insert_stmt = "insert into CT_MAPPINGS (table_name, column_name, column_id, column_type, enabled, identity_column, date_range_comparison, source_connection_id, source_schema_name, source_table_name, source_column_name, source_column_type, column_mode, rep_group_id) values ('" . $row_string . "','" . $new_rep_group_id . "')";
-                DB::connection('mysql2')->insert($insert_stmt);
+                DB::connection('oracle')->insert($insert_stmt);
             }
             //CT_TAB_CONF(DSS, TESTTABLE, 'CREATE' status, executionid);
-            //  $exec = DB::connection('mysql2')->select("exec CT_TAB_CONF(:V_TAB_OWNER, :V_TAB_NAME, :V_ACTION)", array('v_tab_owner' => $table_owner, 'v_tab_name' => $new_table_name, 'v_action' => 'CREATE'));
+            //  $exec = DB::connection('oracle')->select("exec CT_TAB_CONF(:V_TAB_OWNER, :V_TAB_NAME, :V_ACTION)", array('v_tab_owner' => $table_owner, 'v_tab_name' => $new_table_name, 'v_action' => 'CREATE'));
             //  dd($exec);
 
             $procedureName = 'CT_TAB_CONF';
@@ -174,10 +174,10 @@ class TableController extends Controller
                 ],
             ];
 
-            $result = DB::connection('mysql2')->executeProcedure($procedureName, $bindings);
+            $result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
             if ($status != 0) {
-                $error_details = DB::connection('mysql2')->table('CT_PROCESS_ERROR_LOG')->where('process_id', $exec_out)->pluck('details')->first();
-                //  $error_details = DB::connection('mysql2')->select("SELECT ");
+                $error_details = DB::connection('oracle')->table('CT_PROCESS_ERROR_LOG')->where('process_id', $exec_out)->pluck('details')->first();
+                //  $error_details = DB::connection('oracle')->select("SELECT ");
                 //   dd($status, $error_details);
                 ///editTable/{table_name}/{col_count}
 
@@ -194,16 +194,16 @@ class TableController extends Controller
     {
         $table_owner = 'DSS';
         $rows_ids = [];
-        $table_rows_ids = DB::connection('mysql2')->select("SELECT ROWIDTOCHAR(ROWID) FROM CT_MAPPINGS WHERE table_name = '$table_name'");
+        $table_rows_ids = DB::connection('oracle')->select("SELECT ROWIDTOCHAR(ROWID) FROM CT_MAPPINGS WHERE table_name = '$table_name'");
         foreach ($table_rows_ids as $row_id) {
             $array = get_object_vars($row_id);
             $id = array_values($array);
             array_push($rows_ids, $id[0]);
         }
-        $rep_group_id = DB::connection('mysql2')->table('CT_MAPPINGS')->where('table_name', $table_name)->pluck('rep_group_id')->first();
+        $rep_group_id = DB::connection('oracle')->table('CT_MAPPINGS')->where('table_name', $table_name)->pluck('rep_group_id')->first();
         // dd($rep_group_id);
 
-        $table_rows = DB::connection('mysql2')->select("SELECT * FROM CT_MAPPINGS WHERE table_name = '$table_name'");
+        $table_rows = DB::connection('oracle')->select("SELECT * FROM CT_MAPPINGS WHERE table_name = '$table_name'");
 
         $src_id = $table_rows[0]->source_connection_id;
         $col_names = [];
@@ -361,7 +361,7 @@ class TableController extends Controller
         // // dd($row_string);
         if ($col_count != count($table_rows)) {
             $insert_stmt = "INSERT INTO CT_MAPPINGS (table_name, column_name, column_id, column_type, enabled, identity_column, date_range_comparison, source_connection_id, source_schema_name, source_table_name, source_column_name, source_column_type, column_mode, rep_group_id) values ('" . $row_string . "',$rep_group_id)";
-            DB::connection('mysql2')->insert($insert_stmt);
+            DB::connection('oracle')->insert($insert_stmt);
         }
 
         $updates_statements = [];
@@ -376,10 +376,14 @@ class TableController extends Controller
             $update_stmt = implode(', ', $update_statement);
             array_push($updates_statements, $update_stmt);
             //   dd($update_stmt);
-            //  DB::connection('mysql2')->statement(DB::raw("UPDATE CT_MAPPINGS SET $update_stmt, updated_at = SYSDATE  WHERE id = $rep_id "));
+            //  DB::connection('oracle')->statement(DB::raw("UPDATE CT_MAPPINGS SET $update_stmt, updated_at = SYSDATE  WHERE id = $rep_id "));
         }
         foreach ($rows_ids as $i => $id) {
-            DB::connection('mysql2')->statement(DB::raw("UPDATE CT_MAPPINGS SET $updates_statements[$i], updated_at = SYSDATE  WHERE ROWIDTOCHAR(ROWID) = '$id'"));
+            if(array_key_exists($i,$updates_statements))
+            {
+                DB::connection('oracle')->statement(DB::raw("UPDATE CT_MAPPINGS SET $updates_statements[$i], updated_at = SYSDATE  WHERE ROWIDTOCHAR(ROWID) = '$id'"));
+            }
+
         }
 
         $procedureName = 'CT_TAB_CONF';
@@ -388,7 +392,7 @@ class TableController extends Controller
         $bindings = [
             'V_TAB_OWNER'  => "$table_owner",
             'V_TAB_NAME' => "$new_table_name",
-            'V_ACTION' => 'CREATE',
+            'V_ACTION' => 'MODIFY',
             'V_STATUS_OUT' => [
                 'value' => &$status,
                 'length' => 1000,
@@ -399,15 +403,17 @@ class TableController extends Controller
             ],
         ];
 
-        $result = DB::connection('mysql2')->executeProcedure($procedureName, $bindings);
+        $result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
         if ($status != 0) {
-            $error_details = DB::connection('mysql2')->table('CT_PROCESS_ERROR_LOG')->where('process_id', $exec_out)->pluck('details')->first();
+            $error_details = DB::connection('oracle')->table('CT_PROCESS_ERROR_LOG')->where('process_id', $exec_out)->pluck('details')->first();
             // DB::select(DB::raw("exec GetInventoryDetail :Param1, :Param2"),[
             //     ':Param1' => $param_1,
             //     ':Param2' => $param_2,
             // ]);
+            $group_id = DB::connection('oracle')->table('CT_MAPPINGS')->where('table_name', $new_table_name)->pluck('rep_group_id')->first();
+            $group_mode = DB::connection('oracle')->table('CT_REP_GROUPS')->where('id', $group_id)->pluck('group_mode')->first();
             Alert::error("Error $status", $error_details)->autoClose(5000000);
-            return redirect()->route('editTable', [$new_table_name, $new_count]);
+            return redirect()->route('editTable', [$new_table_name, $new_count,$group_mode]);
         } else {
             Alert::success('Success', 'Table Edited successfully');
             // return redirect()->route('view_createdTables');
@@ -418,27 +424,215 @@ class TableController extends Controller
 
         // dd($columns_and_values);
     }
+
+    public function check_table_connection(Request $request, $id)
+    {
+        $count = 0;
+        $data = $request->all();
+        $validator = Validator::make(
+            $data,
+            [
+                "GROUP_MODE" => "required",
+                "schema_1" => "required|string",
+                "schema_2" => "nullable|string",
+                "schema_3" => "nullable|string",
+                "schema_4" => "nullable|string",
+                "schema_5" => "nullable|string",
+                "table_1" => "required|string",
+                "table_2" => "nullable|string",
+                "table_3" => "nullable|string",
+                "table_4" => "nullable|string",
+                "table_5" => "nullable|string",
+
+
+            ]
+        );
+        $schemas = [];
+        $schemasString = "";
+        $tables = [];
+        $tablesString = "";
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        } else {
+            for ($i = 1; $i <= 5; $i++) {
+                if ($data['schema_' . $i . ''] == null && $data['table_' . $i . ''] == null) {
+                    break;
+                } else {
+                    // dd($data['schema_' . $i . '']);
+                    array_push($schemas, $data['schema_' . $i . '']);
+                    array_push($tables, $data['table_' . $i . '']);
+                }
+            }
+
+            $trimmed_tables = array_map('trim', $tables);
+            $trimmed_schemas = array_map('trim', $schemas);
+            if (count($trimmed_tables) !== count(array_unique($trimmed_tables))) {
+                //tables has duplicates
+                $schemas_and_tables = array_combine($schemas, $tables);
+            } elseif (count($trimmed_tables) == count(array_unique($trimmed_tables)) && count($trimmed_schemas) == count(array_unique($trimmed_schemas))) {
+                $schemas_and_tables = array_combine($schemas, $tables);
+            } else {
+                $schemas_and_tables = array_combine($tables, $schemas);
+            }
+            $schemasString = implode(',', $trimmed_schemas);
+            $tablesString = implode(',', $trimmed_tables);
+            //   dd($trimmed_tables,$trimmed_schemas,$schemasString,$tablesString);
+
+            // $schemas_and_tables = array_combine($trimmed_tables, $trimmed_schemas);
+            // dd($schemas_and_tables,$trimmed_tables,$trimmed_schemas);
+            if (count($trimmed_schemas) !== count(array_unique($trimmed_schemas))) {
+                foreach ($schemas_and_tables as $tableName => $schema) {
+
+                    $connection = DB::connection('oracle')->table('CT_CONNECTIONS')->find($id);
+                    // $tableName = $data['table_name'];
+                    // $schema = $data['schema'] ?? $connection->schema_name;
+                    //  DB::connection('oracle')->statement(DB::raw("UPDATE CT_CONNECTIONS SET schema_name = '".$schema."' WHERE id = '".$id."'"));
+
+                    $driver = $connection->connection_driver;
+                    $connection_name = $connection->connection_name;
+                    $src_schema = DatabaseConnection::getSchema($driver, $connection_name, $id);
+                    $src_connection = DatabaseConnection::setConnection($driver, $connection_name, $id);
+                    try {
+                        if (strtolower($driver) == "oracle") {
+                            $test_connection = $src_connection->statement(DB::raw('SELECT * FROM ' . $schema . '.' . $tableName . ' WHERE 1 = 2'));
+                            //   dd(env('DB_CONNECTION'));
+                        } else {
+                            $test_connection = $src_connection->statement(DB::raw('SELECT * FROM ' . $schema . '.' . $tableName . ' WHERE 1 = 2'));
+                            //    dd($test);
+                        }
+                    } catch (Exception $e) {
+                        //  DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET CONFIGURED = 0 WHERE ID = ' . $con->ID . ''));
+                        Alert::error('Error', $e->getMessage())->autoClose(5000000);
+                        return redirect()->back();
+                    }
+                }
+            } else {
+
+                foreach ($schemas_and_tables as $schema => $tableName) {
+                    //   dd('SELECT * FROM ' . $schema . '.' . $tableName . ' WHERE 1 = 2');
+                    $connection = DB::connection('oracle')->table('CT_CONNECTIONS')->find($id);
+                    // $tableName = $data['table_name'];
+                    // $schema = $data['schema'] ?? $connection->schema_name;
+                    //  DB::connection('oracle')->statement(DB::raw("UPDATE CT_CONNECTIONS SET schema_name = '".$schema."' WHERE id = '".$id."'"));
+
+                    $driver = $connection->connection_driver;
+                    $connection_name = $connection->connection_name;
+                    $src_schema = DatabaseConnection::getSchema($driver, $connection_name, $id);
+                    $src_connection = DatabaseConnection::setConnection($driver, $connection_name, $id);
+                    try {
+                        if (strtolower($driver) == "oracle") {
+                            $test_connection = $src_connection->statement(DB::raw('SELECT * FROM ' . $schema . '.' . $tableName . ' WHERE 1 = 2'));
+                            //   dd(env('DB_CONNECTION'));
+                        } else {
+                            $test_connection = $src_connection->statement(DB::raw('SELECT * FROM ' . $schema . '.' . $tableName . ' WHERE 1 = 2'));
+                            //    dd($test);
+                        }
+                    } catch (Exception $e) {
+                        //  DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET CONFIGURED = 0 WHERE ID = ' . $con->ID . ''));
+                        Alert::error('Error', $e->getMessage())->autoClose(5000000);
+                        return redirect()->back();
+                    }
+                }
+            }
+
+            // array_map('strtoupper', array_values($schemas_and_tables));
+            //   dd($schemas_and_tables);
+
+            $count_array = [];
+            if (count($trimmed_schemas) !== count(array_unique($trimmed_schemas))) {
+                foreach ($schemas_and_tables as $tableName => $schema) {
+                    //  dd(strtoupper($tableName), $schema);.
+                    if (strtolower($driver) ==  "oracle") {
+                        $table = strtoupper($tableName);
+                        $owner = strtoupper($schema);
+                        $count = $count + count($src_connection->select("
+                    select * from all_tab_columns
+                    where table_name = '$table'
+                    and owner = '$owner'
+                     "));
+                        $count_array[$tableName . '_' . $schema] = count($src_connection->select("
+                     select * from all_tab_columns
+                     where table_name = '$table'
+                     and owner = '$owner'
+                      "));
+                    } else {
+                        $count = $count + count($src_connection->select("
+                       SELECT *
+                       FROM information_schema.columns
+                       WHERE table_name = '$tableName'
+                       and table_schema = '$schema'
+                     "));
+                        $count_array[$tableName . '_' . $schema] = count($src_connection->select("
+                     SELECT *
+                       FROM information_schema.columns
+                       WHERE table_name = '$tableName'
+                       and table_schema = '$schema'
+                      "));
+                    }
+                }
+            } else {
+                foreach ($schemas_and_tables as $schema => $tableName) {
+                    //  dd(strtoupper($tableName), $schema);
+                    if (strtolower($driver) == "oracle") {
+                        $table = strtoupper($tableName);
+                        $owner = strtoupper($schema);
+                        $count = $count + count($src_connection->select("
+                    select * from all_tab_columns
+                    where table_name = '$table'
+                    and owner = '$owner'
+                     "));
+                        $count_array[$tableName . '_' . $schema] = count($src_connection->select("
+                     select * from all_tab_columns
+                     where table_name = '$table'
+                     and owner = '$owner'
+                      "));
+                    } else {
+                        $count = $count + count($src_connection->select("
+                       SELECT *
+                       FROM information_schema.columns
+                       WHERE table_name = '$tableName'
+                       and table_schema = '$schema'
+                     "));
+                        $count_array[$tableName . '_' . $schema] = count($src_connection->select("
+                     SELECT *
+                       FROM information_schema.columns
+                       WHERE table_name = '$tableName'
+                       and table_schema = '$schema'
+                      "));
+                    }
+                }
+            }
+            $group_mode = $data['GROUP_MODE'];
+            //  dd($count_array);
+            if ($count == 0) {
+                $count = 5;
+            }
+            Alert::success('Success', 'Connected successfully');
+            //  return redirect()->back();
+            return view('Tables_pages/tablesList', compact('id', 'schemasString', 'tablesString', 'schemas_and_tables', 'count', 'src_schema', 'src_connection', 'count_array', 'trimmed_schemas', 'group_mode'));
+        }
+    }
     public function deleteTable($table_name)
     {
         $date = new DateTime();
         $result = $date->format('Y-m-d H:i:s');
         $result = str_replace(['-', ' ', ':'], "", $result);
 
-        $rep_group_id = DB::connection('mysql2')->table('CT_MAPPINGS')->where('table_name', $table_name)->pluck('rep_group_id')->first();
+        $rep_group_id = DB::connection('oracle')->table('CT_MAPPINGS')->where('table_name', $table_name)->pluck('rep_group_id')->first();
 
-        $tb_name = DB::connection('mysql2')->table('CT_MAPPINGS')->where('table_name', $table_name)->pluck('table_name')->first();
-        $grp_name = DB::connection('mysql2')->table('CT_REP_GROUPS')->where('id', $rep_group_id)->pluck('group_name')->first();
+        $tb_name = DB::connection('oracle')->table('CT_MAPPINGS')->where('table_name', $table_name)->pluck('table_name')->first();
+        $grp_name = DB::connection('oracle')->table('CT_REP_GROUPS')->where('id', $rep_group_id)->pluck('group_name')->first();
         $new_table_name = $result . '_' . $tb_name;
 
         $group_name = $result . '_' . $grp_name;
         //delete group
         $group_delete_stmt = "deleted_at = SYSDATE, feed_id = NULL, group_priority_feed = NULL";
-        DB::connection('mysql2')->statement(DB::raw('UPDATE CT_REP_GROUPS SET ' . $group_delete_stmt . ' WHERE id = ' . $rep_group_id . ' '));
+        DB::connection('oracle')->statement(DB::raw('UPDATE CT_REP_GROUPS SET ' . $group_delete_stmt . ' WHERE id = ' . $rep_group_id . ' '));
         //delete_table
         $delete_stmt = "deleted_at = SYSDATE, table_name = '" . $new_table_name . "', rep_group_id = NULL";
-        DB::connection('mysql2')->statement(DB::raw("UPDATE CT_MAPPINGS SET $delete_stmt WHERE table_name = '" . $table_name . "' "));
+        DB::connection('oracle')->statement(DB::raw("UPDATE CT_MAPPINGS SET $delete_stmt WHERE table_name = '" . $table_name . "' "));
 
-        //  DB::connection('mysql2')->update("UPDATE CT_CONNECTIONS SET deleted_at = SYSDATE, connection_name = ?, WHERE id = ?",["'$connection_name'","'$id'"]);
+        //  DB::connection('oracle')->update("UPDATE CT_CONNECTIONS SET deleted_at = SYSDATE, connection_name = ?, WHERE id = ?",["'$connection_name'","'$id'"]);
         Alert::success('Success', 'Removed successfully');
         return redirect()->back();
     }

@@ -21,24 +21,24 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        Reporting solution by Creative Tim
+        Reporting solution
     </title>
     <!--     Fonts and icons     -->
-    <link href="{{ asset('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700') }}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
-    <link href="{{ asset('../assets/css/nucleo-icons.css') }}" rel="stylesheet" />
-    <link href="{{ asset('../assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="{{ asset('../assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="{{ asset('../assets/css/soft-ui-dashboard.css?v=1.0.6') }}" rel="stylesheet" />
+    <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.6" rel="stylesheet" />
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
     @include('sweetalert::alert')
 
-    {{-- <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-0 fixed-start ms-0 "
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
         id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -79,7 +79,7 @@
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link  " href="../pages/tables.html">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -308,418 +308,225 @@
             </div>
             <a class="btn bg-gradient-primary mt-3 w-100"
                 href="https://www.creative-tim.com/product/soft-ui-dashboard-pro?ref=sidebarfree">Upgrade to pro</a>
-        </div>
-    </aside> --}}
+        </div> --}}
+    </aside>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+            navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark">Pages</a>
+                        </li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Create Connection</li>
+                    </ol>
+                    <h6 class="font-weight-bolder mb-0">Create Connection</h6>
+                </nav>
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                        <div class="input-group">
 
-        <div class="header d-flex mt-4 ms-3">
-            <h3 class="text-primary">Edit {{ $table->table_name }} table</h3>
-
-        </div>
-        <div class="container-fluid py-4">
-
-            <div class="d-flex flex-row bd-highlight mb-3r">
-                {{-- <div class="col-lg-8"> --}}
-                <div class="d-flex flex-row bd-highlight mb-3">
-
-                    <div class="col-md-0 mb-lg-0 mb-4">
-
+                        </div>
                     </div>
-                    {{-- {{ url('/set_new_table') }}/{{ $id }}/{{ $tableName }} --}}
-                    <form action="{{ url('/update_table') }}/{{ $table->table_name }}/{{ request()->col_count }}"
-                        method="get">
-                        <div class="col-md-12 mb-lg-0 mb-4 ms-2">
-                            <div class="card mt-4">
+                    <ul class="navbar-nav  justify-content-end">
+                        <li class="nav-item d-flex align-items-center ms-4">
 
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1" href="{{ url('view_connections') }}">Connections</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_createdTables') }}">Tables</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_repGroups') }}">Groups</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_feeds') }}">Feeds</a>
+                        </li>
+
+                        <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                            <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                                <div class="sidenav-toggler-inner">
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item px-3 d-flex align-items-center">
+
+                        </li>
+                        <li class="nav-item dropdown pe-2 d-flex align-items-center">
+
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid py-4">
+            <div class="row">
+                {{-- <div class="col-lg-8"> --}}
+                <div class="row">
+
+
+
+
+                    <div class="col-md-12 mb-lg-0 mb-4">
+                        <div class="card mt-4">
+                            <form action="{{ route('setEnv') }}" method="get">
                                 <div class="card-header pb-0 p-3">
                                     <div class="row">
                                         <div class="col-6 d-flex align-items-center">
-
-                                            <div class="input-group">
-
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <input type="text" name="TABLE_NAME" class="form-control"
-                                                        placeholder="{{ $table->table_name }}">
-                                                    @if ($errors->has('TABLE_NAME'))
-                                                        <div class="error">
-                                                            {{ $errors->first('TABLE_NAME') }}
-                                                        </div>
-                                                    @endif
-
-                                                </div>
-                                            </div>
-
+                                            <h3 class="text-primary mb-2">New Source Connection</h3>
                                         </div>
-                                        <div class="col-md-4 mb-md-2 mb-0">
-
-
-                                                <br>
-
-
-                                        </div>
-                                        <div class="col-6 d-flex align-items-center">
-                                            <div class="input-group">
-
-                                                <div class="d-flex flex-column justify-content-center">
-
-                                                    {{-- <input type="submit" name="add" value="Add Column"
-                                                        class="btn bg-gradient-primary"> --}}
-                                                    {{-- <a href="{{ url('createTable')}}/{{ $id }}/{{ $tableName }}/{{ $count+1 }}" class="btn bg-gradient-primary pull-right">Add Column</a> --}}
-                                                    {{-- <button type="button" name="add"
-                                                        onclick="add()"
-                                                        class="btn bg-gradient-primary mb-0 ml-4" style="width:100%">
-                                                        Add a column
-                                                    </button> --}}
-                                                    <button type="button" name="add"
-                                                        onclick="window.location='{{ url('editTable') }}/{{ $table->table_name }}/{{ request()->col_count + 1 }}'"
-                                                        class="btn bg-gradient-primary mb-0 ml-4" style="width:100%">
-                                                        Add a column
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <?php
-                                        //;'{{$_SESSION['count'] = $_SESSION['count'] + 1 }}'
-                                        // if (isset($_POST['add'])) {
-                                        //     $_SESSION['count'] = $_SESSION['count']+1;
-
-                                        // }else{
-                                        //  // $_SESSION['count'] = $count;
-                                        // }
-                                        ?>
 
 
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
                                     <div class="row d-flex justify-content-center">
-                                        <div class="table-responsive p-0">
-
-                                            <table class="table align-items-center mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Source</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Source Field</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Source Field type</th>
+                                        <div class="col-md-0 mb-md-1 mb-4">
+                                            <h6 class="mb-0">Connection Name</h6>
 
 
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Field Name</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Field Type</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Field Order</th>
-                                                            <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Column Mode</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Unique</th>
+                                            <div class="input-group">
+
+                                                <input type="text" name="DB_CONNECTION_NAME" class="form-control"
+                                                    placeholder="Type here...">
+                                                @if ($errors->has('DB_CONNECTION_NAME'))
+                                                    <div class="error">{{ $errors->first('DB_CONNECTION_NAME') }}
+                                                    </div>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Engine</h6>
 
 
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Date-Comparable</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Enabled</th>
+                                            <div class="input-group">
+
+                                                <select name="DB_CONNECTION" id="DB_CONNECTION" class="form-select">
+                                                    <option value="ORACLE">Oracle</option>
+                                                    <option value="MYSQL">MYSQL</option>
+                                                    {{-- <option value="pgsql">pgsql</option>
+                                                        <option value="sqlsrv">sqlsrv</option> --}}
+
+                                                </select>
+                                                @if ($errors->has('DB_CONNECTION'))
+                                                    <div class="error">{{ $errors->first('DB_CONNECTION') }}</div>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Host</h6>
 
 
+                                            <div class="input-group">
 
-                                                        {{--
-                                                        <th class="text-secondary opacity-7"></th>
-                                                        <th class="text-secondary opacity-7"></th> --}}
+                                                <input type="text" name="DB_HOST" class="form-control"
+                                                    placeholder="Type here...">
+                                                @if ($errors->has('DB_HOST'))
+                                                    <div class="error">{{ $errors->first('DB_HOST') }}</div>
+                                                @endif
 
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                                            </div>
 
-
-                                                    <?php
-                                                    $col_count = request()->col_count;
-                                                    //  dd( request()->count_col);
-                                                    ?>
-                                                    @foreach (range(0, $col_count - 1) as $i)
-                                                        <tr>
-                                                            <td>
-                                                                <div class="input-group">
-
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <select class="form-select"
-                                                                            name="SCHEMA_TABLE_{{ $i }}"
-                                                                            id="SCHEMA_TABLE_{{ $i }}">
-
-                                                                            @if (array_key_exists($i, $rows))
-                                                                                <option
-                                                                                    value="{{ $rows[$i]->source_schema_name . '.' . $rows[$i]->source_table_name }}">
-                                                                                    {{ $rows[$i]->source_schema_name . '.' . $rows[$i]->source_table_name }}
-                                                                                </option>
-                                                                                @foreach ($rows as $row)
-                                                                                    <option
-                                                                                        value="{{ $row->source_schema_name . '.' . $row->source_table_name }}">
-                                                                                        {{ $row->source_schema_name . '.' . $row->source_table_name }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                                @foreach ($table_objs as $object)
-                                                                                <option value="{{ $object }}">{{ $object }}</option>
-
-                                                                                @endforeach
-                                                                            @else
-                                                                                @foreach ($rows as $row)
-                                                                                    <option
-                                                                                        value="{{ $row->source_schema_name . '.' . $row->source_table_name }}">
-                                                                                        {{ $row->source_schema_name . '.' . $row->source_table_name }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                                @foreach ($table_objs as $object)
-                                                                                <option value="{{ $object }}">{{ $object }}</option>
-
-                                                                                @endforeach
-                                                                            @endif
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Port</h6>
 
 
+                                            <div class="input-group">
 
-                                                                        </select>
-                                                                        {{-- @if ($errors->has('REP_MODE'))
-                                                                            <div class="error">
-                                                                                {{ $errors->first('REP_MODE') }}
-                                                                            </div>
-                                                                        @endif --}}
+                                                <input type="number" name="DB_PORT" class="form-control"
+                                                    placeholder="Type here...">
+                                                @if ($errors->has('DB_PORT'))
+                                                    <div class="error">{{ $errors->first('DB_PORT') }}</div>
+                                                @endif
 
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
+                                            </div>
 
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <input type="text"
-                                                                            name="SOURCE_COLUMN_NAME_{{ $i }}"
-                                                                            class="form-control"
-                                                                            placeholder="{{ $rows[$i]->source_column_name ?? 'src_col' }}">
-                                                                        {{-- @if ($errors->has('COLUMN_NAME'))
-                                                                            <div class="error">
-                                                                                {{ $errors->first('COLUMN_NAME') }}
-                                                                            </div>
-                                                                        @endif --}}
+                                        </div>
 
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-
-                                                                        <select
-                                                                            name="SOURCE_COLUMN_TYPE_{{ $i }}"
-                                                                            id="SOURCE_COLUMN_TYPE_{{ $i }}"
-                                                                            class="form-select">
-                                                                            <option
-                                                                                value="{{ $rows[$i]->source_column_type ?? null }}">
-                                                                                {{ $rows[$i]->source_column_type ?? '' }}
-                                                                            </option>
-                                                                            <option value="text">text</option>
-                                                                            <option value="number">number</option>
-                                                                            <option value="date">date
-                                                                            </option>
-
-                                                                        </select>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Username</h6>
 
 
-                                                                    </div>
+                                            <div class="input-group">
 
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
+                                                <input type="text" name="DB_USERNAME" class="form-control"
+                                                    placeholder="Type here...">
+                                                @if ($errors->has('DB_USERNAME'))
+                                                    <div class="error">{{ $errors->first('DB_USERNAME') }}</div>
+                                                @endif
 
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <input type="text"
-                                                                            name="COLUMN_NAME_{{ $i }}"
-                                                                            class="form-control"
-                                                                            placeholder="{{ $rows[$i]->column_name ?? '' }}">
-                                                                        {{-- @if ($errors->has('COLUMN_NAME'))
-                                                                            <div class="error">
-                                                                                {{ $errors->first('COLUMN_NAME') }}
-                                                                            </div>
-                                                                        @endif --}}
+                                            </div>
 
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-                                                                    <div style="margin-right: 10%"><br></div>
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-
-                                                                        <select name="COLUMN_TYPE_{{ $i }}"
-                                                                            id="COLUMN_TYPE_{{ $i }}"
-                                                                            class="form-select">
-                                                                            <option
-                                                                                value="{{ $rows[$i]->column_type ?? null }}">
-                                                                                {{ $rows[$i]->column_type ?? '' }}
-                                                                            </option>
-                                                                            <option value="text">text</option>
-                                                                            <option value="number">number</option>
-                                                                            <option value="date">date
-                                                                            </option>
-
-                                                                        </select>
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Password</h6>
 
 
-                                                                    </div>
+                                            <div class="input-group">
 
-                                                                </div>
-                                                            </td>
+                                                <input type="password" name="DB_PASSWORD" class="form-control"
+                                                    placeholder="Type here...">
+                                                @if ($errors->has('DB_PASSWORD'))
+                                                    <div class="error">{{ $errors->first('DB_PASSWORD') }}</div>
+                                                @endif
 
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
+                                            </div>
 
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-
-
-                                                                        <input type="number"
-                                                                            name="COLUMN_ID_{{ $i }}"
-                                                                            class="form-control"
-                                                                            placeholder="{{ $rows[$i]->column_id ?? '' }}">
-                                                                        {{-- @if ($errors->has('COLUMN_ID'))
-                                                                            <div class="error">
-                                                                                {{ $errors->first('COLUMN_ID') }}
-                                                                            </div>
-                                                                        @endif --}}
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td>
-                                                                <div class="input-group">
-
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-
-                                                                        <select name="REP_MODE_{{ $i }}"
-                                                                            id="REP_MODE_{{ $i }}"
-                                                                            class="form-select">
-                                                                            <option
-                                                                                value="{{ $rows[$i]->rep_mode ?? null }}">
-                                                                                {{ $rows[$i]->rep_mode ?? '' }}
-                                                                            </option>
-                                                                            <option value="FULL_FEED">FULL_FEED</option>
-                                                                            <option value="AUTO">Auto</option>
-                                                                            <option value="AUTOINCREMENT">AutoIncrement
-                                                                            </option>
-                                                                            <option value="DATE_RANGE">DATE_RANGE
-                                                                            </option>
-
-                                                                        </select>
-                                                                        {{-- @if ($errors->has('REP_MODE'))
-                                                                            <div class="error">
-                                                                                {{ $errors->first('REP_MODE') }}
-                                                                            </div>
-                                                                        @endif --}}
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <input type="hidden"
-                                                                            value="{{ $rows[$i]->identity_column ?? 0 }}"
-                                                                            name="IDENTITY_COLUMN_{{ $i }}">
-                                                                        <input
-                                                                            name="IDENTITY_COLUMN_{{ $i }}"
-                                                                            type="checkbox" value="1">
-
-                                                                        {{-- @if ($errors->has('IDENTITY_COLUMN'))
-                                                                            <div class="error">
-                                                                                {{ $errors->first('IDENTITY_COLUMN') }}
-                                                                            </div>
-                                                                        @endif --}}
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <input type="hidden"
-                                                                            value="{{ $rows[$i]->date_range_comparison ?? 0 }}"
-                                                                            name="DATE_RANGE_COMPARISON_{{ $i }}">
-                                                                        <input
-                                                                            name="DATE_RANGE_COMPARISON_{{ $i }}"
-                                                                            value="1" type="checkbox">
-
-                                                                        {{-- @if ($errors->has('DATE_RANGE_COMPARISON'))
-                                                                            <div class="error">
-                                                                                {{ $errors->first('DATE_RANGE_COMPARISON') }}
-                                                                            </div>
-                                                                        @endif --}}
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <input type="hidden"
-                                                                            value="{{ $rows[$i]->enabled ?? 0 }}"
-                                                                            name="ENABLED_{{ $i }}">
-                                                                        <input name="ENABLED_{{ $i }}"
-                                                                            value="1" type="checkbox">
-
-                                                                        {{-- @if ($errors->has('DATE_RANGE_COMPARISON'))
-                                                                            <div class="error">
-                                                                                {{ $errors->first('DATE_RANGE_COMPARISON') }}
-                                                                            </div>
-                                                                        @endif --}}
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Database Name</h6>
 
 
+                                            <div class="input-group">
+
+                                                <input type="text" name="DB_DATABASE" class="form-control"
+                                                    placeholder="Type here...">
+                                                @if ($errors->has('DB_DATABASE'))
+                                                    <div class="error">{{ $errors->first('DB_DATABASE') }}</div>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-8 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Schema (Optional)</h6>
 
 
-                                                        </tr>
-                                                    @endforeach
+                                            <div class="input-group">
 
-                                                </tbody>
-                                            </table>
+                                                <input type="text" name="DB_SCHEMA_NAME" class="form-control"
+                                                    placeholder="Type here...">
+                                                @if ($errors->has('DB_SCHEMA_NAME'))
+                                                    <div class="error">{{ $errors->first('DB_SCHEMA_NAME') }}
+                                                    </div>
+                                                @endif
+
+                                            </div>
 
                                         </div>
                                         <div class="col-md-4 mb-md-2 mb-4 mt-4">
 
                                             <div class="input-group">
                                                 <button type="submit" class="btn bg-gradient-primary mb-0 ml-4"
-                                                    style="width:100%"> Save
-                                                    Table</button>
+                                                    style="width:100%"><i class="fas fa-plus"></i> Save
+                                                    Connection</button>
 
                                             </div>
 
@@ -727,10 +534,10 @@
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
+
 
                 </div>
                 {{-- </div> --}}

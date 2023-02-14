@@ -53,12 +53,12 @@ class ConnectionController extends Controller
         } else {
 
 
-            $connection_name_already_found = DB::connection('mysql2')->table('CT_CONNECTIONS')->where('connection_name', $data['DB_CONNECTION_NAME'])->first();
+            $connection_name_already_found = DB::connection('oracle')->table('CT_CONNECTIONS')->where('connection_name', $data['DB_CONNECTION_NAME'])->first();
             if ($connection_name_already_found) {
                 Alert::error('Error', 'Connection name already used')->autoClose(5000000);
                 return Redirect::back();
             } else {
-                $con_columns_array = Schema::connection('mysql2')->getColumnListing('CT_CONNECTIONS');
+                $con_columns_array = Schema::connection('oracle')->getColumnListing('CT_CONNECTIONS');
 
                 if (($key = array_search(strtolower('ID'), array_map('strtolower', $con_columns_array))) !== false) {
                     unset($con_columns_array[$key]);
@@ -100,12 +100,12 @@ class ConnectionController extends Controller
 
                 $insert_stmt = "insert into CT_CONNECTIONS ($con_columns) values ($record_data)";
                 // $insert_stmt = "insert into $dest_table ($dest_data) values ('" . $candidate_id_src . "','" . $candidate_name_src . "','" . $candidate_created_at_src . "','" . $candidate_updated_at_src . "','" . $candidate_deleted_at_src . "')";
-                DB::connection('mysql2')->insert($insert_stmt);
+                DB::connection('oracle')->insert($insert_stmt);
 
                 $connection_name = $data['DB_CONNECTION_NAME'];
                 // $driver = $data['DB_CONNECTION'];
-                $new_id = DB::connection('mysql2')->table('CT_CONNECTIONS')->where('connection_name', $connection_name)->pluck('id')->first();
-                $con = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($new_id);
+                $new_id = DB::connection('oracle')->table('CT_CONNECTIONS')->where('connection_name', $connection_name)->pluck('id')->first();
+                $con = DB::connection('oracle')->table('CT_CONNECTIONS')->find($new_id);
                 $driver = $con->connection_driver;
                 $connection_name = $con->connection_name;
                 $connection = DatabaseConnection::setConnection($driver, $connection_name, $new_id);
@@ -117,11 +117,11 @@ class ConnectionController extends Controller
                         $test_connection = $connection->statement(DB::raw('SELECT 1+1'));
                         //    dd($test);
                     }
-                    DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 1 WHERE id = ' . $con->id . ''));
+                    DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 1 WHERE id = ' . $con->id . ''));
                     Alert::success('Success', 'Connected successfully');
                     return redirect()->route('view_connections');
                 } catch (Exception $e) {
-                    DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 0 WHERE id = ' . $con->id . ''));
+                    DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 0 WHERE id = ' . $con->id . ''));
                     Alert::error('Error', $e->getMessage())->autoClose(5000000);
                     return redirect()->route('editConnection', $new_id);
                 }
@@ -167,7 +167,7 @@ class ConnectionController extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         } else {
-            $old_connection = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($id);
+            $old_connection = DB::connection('oracle')->table('CT_CONNECTIONS')->find($id);
             $old_connection_name = $old_connection->connection_name;
             $driver = $data['DB_CONNECTION'];
             $new_connection_name = $data['DB_CONNECTION_NAME'] ?? $old_connection_name;
@@ -209,8 +209,8 @@ class ConnectionController extends Controller
             //     }
             // }
         }
-        $record = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($id);
-        $con_columns_array = Schema::connection('mysql2')->getColumnListing('CT_CONNECTIONS');
+        $record = DB::connection('oracle')->table('CT_CONNECTIONS')->find($id);
+        $con_columns_array = Schema::connection('oracle')->getColumnListing('CT_CONNECTIONS');
         if (($key = array_search(strtolower('ID'), array_map('strtolower', $con_columns_array))) !== false) {
             unset($con_columns_array[$key]);
         }
@@ -275,9 +275,9 @@ class ConnectionController extends Controller
         //mysql now ==> database date
         //  $now = Carbon::now();
         //if oracle change the update stmt with sysdate
-        DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET ' . $update_stmt . ',updated_at = SYSDATE  WHERE id = ' . $id . ' '));
+        DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET ' . $update_stmt . ',updated_at = SYSDATE  WHERE id = ' . $id . ' '));
 
-        $con = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($id);
+        $con = DB::connection('oracle')->table('CT_CONNECTIONS')->find($id);
         $driver = $con->connection_driver;
         $connection_name = $con->connection_name;
 
@@ -290,11 +290,11 @@ class ConnectionController extends Controller
                 $test_connection = $connection->statement(DB::raw('SELECT 1+1'));
                 //    dd($test);
             }
-            DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 1 WHERE id = ' . $con->id . ''));
+            DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 1 WHERE id = ' . $con->id . ''));
             Alert::success('Success', 'Connected successfully');
             return redirect()->route('view_connections');
         } catch (Exception $e) {
-            DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 0 WHERE id = ' . $con->id . ''));
+            DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 0 WHERE id = ' . $con->id . ''));
             Alert::error('Error', $e->getMessage())->autoClose(5000000);
             return redirect()->route('editConnection', $id);
         }
@@ -305,23 +305,23 @@ class ConnectionController extends Controller
         $result = $date->format('Y-m-d H:i:s');
         $result = str_replace(['-',' ',':'], "", $result);
 
-        $con_name = DB::connection('mysql2')->table('CT_CONNECTIONS')->where('id', $id)->pluck('connection_name')->first();
+        $con_name = DB::connection('oracle')->table('CT_CONNECTIONS')->where('id', $id)->pluck('connection_name')->first();
         $connection_name = $result . '_' . $con_name;
-        $tb_name = DB::connection('mysql2')->table('CT_MAPPINGS')->where('source_connection_id', $id)->pluck('table_name')->first();
-        $grp_name = DB::connection('mysql2')->table('CT_REP_GROUPS')->where('connection_id', $id)->pluck('group_name')->first();
+        $tb_name = DB::connection('oracle')->table('CT_MAPPINGS')->where('source_connection_id', $id)->pluck('table_name')->first();
+        $grp_name = DB::connection('oracle')->table('CT_REP_GROUPS')->where('connection_id', $id)->pluck('group_name')->first();
         $new_table_name = $result . '_' . $tb_name;
         $group_name = $result . '_' . $grp_name;
        // dd($tb_name, $grp_name);
-        // $fd_name = DB::connection('mysql2')->table('CT_FEEDS')->where('connection_id', $id)->pluck('feed_name')->first();
+        // $fd_name = DB::connection('oracle')->table('CT_FEEDS')->where('connection_id', $id)->pluck('feed_name')->first();
         // $feed_name = $result . '_' . $fd_name;
 
-        //  DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET deleted_at = NOW(), connection_name = "' . $result . '_' . $con_name . '"  WHERE id = "' . $id . '"'));
+        //  DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET deleted_at = NOW(), connection_name = "' . $result . '_' . $con_name . '"  WHERE id = "' . $id . '"'));
         $con_delete_stmt = "deleted_at = SYSDATE, connection_name = '" . $connection_name . "'";
         $table_delete_stmt = "rep_group_id = NULL, deleted_at = SYSDATE, table_name = '" . $new_table_name . "'  WHERE table_name =  '".$tb_name."' ";
         $group_delete_stmt = "feed_id = NULL, group_priority_feed = NULL, deleted_at = SYSDATE, group_name = '" . $group_name . "' WHERE group_name = '" . $grp_name . "'";
-        DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET ' . $con_delete_stmt . ' WHERE id = ' . $id . ' '));
-        DB::connection('mysql2')->statement(DB::raw("UPDATE CT_MAPPINGS SET $table_delete_stmt"));
-        DB::connection('mysql2')->statement(DB::raw('UPDATE CT_REP_GROUPS SET ' . $group_delete_stmt . ''));
+        DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET ' . $con_delete_stmt . ' WHERE id = ' . $id . ' '));
+        DB::connection('oracle')->statement(DB::raw("UPDATE CT_MAPPINGS SET $table_delete_stmt"));
+        DB::connection('oracle')->statement(DB::raw('UPDATE CT_REP_GROUPS SET ' . $group_delete_stmt . ''));
        //
         Alert::success('Success', 'Removed successfully');
         return redirect()->route('view_connections');

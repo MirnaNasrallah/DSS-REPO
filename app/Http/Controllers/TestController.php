@@ -27,12 +27,12 @@ class TestController extends Controller
 {
     public function test2()
     {
-        $mapping = DB::connection('mysql2')->select('select * from mapping');
+        $mapping = DB::connection('oracle')->select('select * from mapping');
         foreach ($mapping as $map) {
             $now = Carbon::now();
             $start_time = Carbon::now();
             if ($map->status == true) {
-                $source_connection = DB::connection('mysql2')->table('CONNECTIONS_MAPPING')->find($map->src_connection_id);
+                $source_connection = DB::connection('oracle')->table('CONNECTIONS_MAPPING')->find($map->src_connection_id);
                 $driver = $source_connection->CONNECTION_DRIVER;
                 $connection_name = $source_connection->CONNECTION_NAME;
                 $src_connection = DatabaseConnection::setConnection($driver, $connection_name, $map->src_connection_id);
@@ -248,12 +248,12 @@ class TestController extends Controller
                             if ($dest_record !== null && $deleted_at_src !== null) {
                                 //echo $candidate_deleted_at_src;
                                 DB::connection($dest_connection)->statement(DB::raw('update ' . $dest_table . ' set deleted_at = "' . $deleted_at_src . '" where ' . $dest_data_array[0] . ' = "' . $id_src . '"'));
-                                //DB::connection('mysql2')->update("update candidates set deleted_at = '$candidate_deleted_at_src' where id = ?", [$candidate_id_src]);
+                                //DB::connection('oracle')->update("update candidates set deleted_at = '$candidate_deleted_at_src' where id = ?", [$candidate_id_src]);
                             } elseif ($dest_record !== null && $deleted_at_src === null) {
                                 DB::connection($dest_connection)->statement(DB::raw('update ' . $dest_table . ' set deleted_at = null where ' . $dest_data_array[0] . ' = "' . $id_src . '"'));
                             }
                         }
-                        DB::connection('mysql2')->statement(DB::raw('UPDATE mapping SET last_update = "' . $record_last_update . '" where src_table_name = "' . $src_table . '"'));
+                        DB::connection('oracle')->statement(DB::raw('UPDATE mapping SET last_update = "' . $record_last_update . '" where src_table_name = "' . $src_table . '"'));
                     } else {
                         foreach ($dest as $record) {
                             //   $record->delete();
@@ -289,7 +289,7 @@ class TestController extends Controller
                         DB::connection($dest_connection)->statement($create_table);
 
                         $dest_table = 'new_' . $src_table . '_' . $op . '';
-                        DB::connection('mysql2')->statement(DB::raw('UPDATE mapping SET dest_table_name = "' . $dest_table . '" where src_table_name = "' . $src_table . '"'));
+                        DB::connection('oracle')->statement(DB::raw('UPDATE mapping SET dest_table_name = "' . $dest_table . '" where src_table_name = "' . $src_table . '"'));
                         $dest_data_array = Schema::connection($dest_connection)->getColumnListing($dest_table);
                         $dest_data = implode(',', $dest_data_array);
 
@@ -335,7 +335,7 @@ class TestController extends Controller
                                 if ($dest_record !== null && $candidate_deleted_at_src !== null) {
                                     //echo $candidate_deleted_at_src;
                                     DB::connection($dest_connection)->statement(DB::raw('update ' . $dest_table . ' set deleted_at = "' . $candidate_deleted_at_src . '" where ' . $dest_data_array[0] . ' = "' . $candidate_id_src . '"'));
-                                    //DB::connection('mysql2')->update("update candidates set deleted_at = '$candidate_deleted_at_src' where id = ?", [$candidate_id_src]);
+                                    //DB::connection('oracle')->update("update candidates set deleted_at = '$candidate_deleted_at_src' where id = ?", [$candidate_id_src]);
                                 } elseif ($dest_record !== null && $candidate_deleted_at_src === null) {
                                     DB::connection($dest_connection)->statement(DB::raw('update ' . $dest_table . ' set deleted_at = null where ' . $dest_data_array[0] . ' = "' . $candidate_id_src . '"'));
                                 }
@@ -355,7 +355,7 @@ class TestController extends Controller
 
             $now = Carbon::now();
             $end_time = Carbon::now();
-            $job_def_columns_array = Schema::connection('mysql2')->getColumnListing('JOB_DEF');
+            $job_def_columns_array = Schema::connection('oracle')->getColumnListing('JOB_DEF');
 
             if (($key = array_search('ID',  $job_def_columns_array)) !== false) {
                 unset($job_def_columns_array[$key]);
@@ -403,12 +403,12 @@ class TestController extends Controller
         } else {
 
 
-            $connection_name_already_found = DB::connection('mysql2')->table('CT_CONNECTIONS')->where('connection_name', $data['DB_CONNECTION_NAME'])->first();
+            $connection_name_already_found = DB::connection('oracle')->table('CT_CONNECTIONS')->where('connection_name', $data['DB_CONNECTION_NAME'])->first();
             if ($connection_name_already_found) {
                 Alert::error('Error', 'Connection name already used')->autoClose(5000000);
                 return Redirect::back();
             } else {
-                $con_columns_array = Schema::connection('mysql2')->getColumnListing('CT_CONNECTIONS');
+                $con_columns_array = Schema::connection('oracle')->getColumnListing('CT_CONNECTIONS');
 
                 if (($key = array_search(strtolower('ID'), array_map('strtolower', $con_columns_array))) !== false) {
                     unset($con_columns_array[$key]);
@@ -450,12 +450,12 @@ class TestController extends Controller
 
                 $insert_stmt = "insert into CT_CONNECTIONS ($con_columns) values ($record_data)";
                 // $insert_stmt = "insert into $dest_table ($dest_data) values ('" . $candidate_id_src . "','" . $candidate_name_src . "','" . $candidate_created_at_src . "','" . $candidate_updated_at_src . "','" . $candidate_deleted_at_src . "')";
-                DB::connection('mysql2')->insert($insert_stmt);
+                DB::connection('oracle')->insert($insert_stmt);
 
                 $connection_name = $data['DB_CONNECTION_NAME'];
                 // $driver = $data['DB_CONNECTION'];
-                $new_id = DB::connection('mysql2')->table('CT_CONNECTIONS')->where('connection_name', $connection_name)->pluck('id')->first();
-                $con = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($new_id);
+                $new_id = DB::connection('oracle')->table('CT_CONNECTIONS')->where('connection_name', $connection_name)->pluck('id')->first();
+                $con = DB::connection('oracle')->table('CT_CONNECTIONS')->find($new_id);
                 $driver = $con->connection_driver;
                 $connection_name = $con->connection_name;
                 $connection = DatabaseConnection::setConnection($driver, $connection_name, $new_id);
@@ -467,11 +467,11 @@ class TestController extends Controller
                         $test_connection = $connection->statement(DB::raw('SELECT 1+1'));
                         //    dd($test);
                     }
-                    DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 1 WHERE id = ' . $con->id . ''));
+                    DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 1 WHERE id = ' . $con->id . ''));
                     Alert::success('Success', 'Connected successfully');
                     return redirect()->route('view_connections');
                 } catch (Exception $e) {
-                    DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 0 WHERE id = ' . $con->id . ''));
+                    DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 0 WHERE id = ' . $con->id . ''));
                     Alert::error('Error', $e->getMessage())->autoClose(5000000);
                     return redirect()->route('editConnection', $new_id);
                 }
@@ -517,7 +517,7 @@ class TestController extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         } else {
-            $old_connection = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($id);
+            $old_connection = DB::connection('oracle')->table('CT_CONNECTIONS')->find($id);
             $old_connection_name = $old_connection->connection_name;
             $driver = $data['DB_CONNECTION'];
             $new_connection_name = $data['DB_CONNECTION_NAME'] ?? $old_connection_name;
@@ -559,8 +559,8 @@ class TestController extends Controller
             //     }
             // }
         }
-        $record = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($id);
-        $con_columns_array = Schema::connection('mysql2')->getColumnListing('CT_CONNECTIONS');
+        $record = DB::connection('oracle')->table('CT_CONNECTIONS')->find($id);
+        $con_columns_array = Schema::connection('oracle')->getColumnListing('CT_CONNECTIONS');
         if (($key = array_search(strtolower('ID'), array_map('strtolower', $con_columns_array))) !== false) {
             unset($con_columns_array[$key]);
         }
@@ -625,9 +625,9 @@ class TestController extends Controller
         //mysql now ==> database date
         //  $now = Carbon::now();
         //if oracle change the update stmt with sysdate
-        DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET ' . $update_stmt . ',updated_at = SYSDATE  WHERE id = ' . $id . ' '));
+        DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET ' . $update_stmt . ',updated_at = SYSDATE  WHERE id = ' . $id . ' '));
 
-        $con = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($id);
+        $con = DB::connection('oracle')->table('CT_CONNECTIONS')->find($id);
         $driver = $con->connection_driver;
         $connection_name = $con->connection_name;
 
@@ -640,11 +640,11 @@ class TestController extends Controller
                 $test_connection = $connection->statement(DB::raw('SELECT 1+1'));
                 //    dd($test);
             }
-            DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 1 WHERE id = ' . $con->id . ''));
+            DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 1 WHERE id = ' . $con->id . ''));
             Alert::success('Success', 'Connected successfully');
             return redirect()->route('view_connections');
         } catch (Exception $e) {
-            DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 0 WHERE id = ' . $con->id . ''));
+            DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET configured = 0 WHERE id = ' . $con->id . ''));
             Alert::error('Error', $e->getMessage())->autoClose(5000000);
             return redirect()->route('editConnection', $id);
         }
@@ -654,7 +654,7 @@ class TestController extends Controller
     {
         $table_owner = 'DSS';
 
-        $source_connection = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($src_id);
+        $source_connection = DB::connection('oracle')->table('CT_CONNECTIONS')->find($src_id);
 
         $driver = $source_connection->connection_driver;
         $connection_name = $source_connection->connection_name;
@@ -765,8 +765,8 @@ class TestController extends Controller
                 $group_name = strtoupper($new_table_name . "_MN");
             }
             $rep_insert_stmt = "insert into CT_REP_GROUPS (group_name, group_mode,  connection_id, created_at, updated_at) values ('" . $group_name . "','" . $group_mode . "','" . $src_id . "', SYSDATE, SYSDATE)";
-            DB::connection('mysql2')->insert($rep_insert_stmt);
-            $new_rep_group_id = DB::connection('mysql2')->table('CT_REP_GROUPS')->where('group_name', $group_name)->pluck('id')->first();
+            DB::connection('oracle')->insert($rep_insert_stmt);
+            $new_rep_group_id = DB::connection('oracle')->table('CT_REP_GROUPS')->where('group_name', $group_name)->pluck('id')->first();
 
             foreach ($table_array as $row) {
                 //INSERT INTO CT_MAPPINGS ROW BY ROW
@@ -775,10 +775,10 @@ class TestController extends Controller
                 $row_string = implode("','", $row);
                 // dd($row_string);
                 $insert_stmt = "insert into CT_MAPPINGS (table_name, column_name, column_id, column_type, enabled, identity_column, date_range_comparison, source_connection_id, source_schema_name, source_table_name, source_column_name, source_column_type, column_mode, rep_group_id) values ('" . $row_string . "','" . $new_rep_group_id . "')";
-                DB::connection('mysql2')->insert($insert_stmt);
+                DB::connection('oracle')->insert($insert_stmt);
             }
             //CT_TAB_CONF(DSS, TESTTABLE, 'CREATE' status, executionid);
-            //  $exec = DB::connection('mysql2')->select("exec CT_TAB_CONF(:V_TAB_OWNER, :V_TAB_NAME, :V_ACTION)", array('v_tab_owner' => $table_owner, 'v_tab_name' => $new_table_name, 'v_action' => 'CREATE'));
+            //  $exec = DB::connection('oracle')->select("exec CT_TAB_CONF(:V_TAB_OWNER, :V_TAB_NAME, :V_ACTION)", array('v_tab_owner' => $table_owner, 'v_tab_name' => $new_table_name, 'v_action' => 'CREATE'));
             //  dd($exec);
 
             $procedureName = 'CT_TAB_CONF';
@@ -798,10 +798,10 @@ class TestController extends Controller
                 ],
             ];
 
-            $result = DB::connection('mysql2')->executeProcedure($procedureName, $bindings);
+            $result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
             if ($status != 0) {
-                $error_details = DB::connection('mysql2')->table('CT_PROCESS_ERROR_LOG')->where('process_id', $exec_out)->pluck('details')->first();
-                //  $error_details = DB::connection('mysql2')->select("SELECT ");
+                $error_details = DB::connection('oracle')->table('CT_PROCESS_ERROR_LOG')->where('process_id', $exec_out)->pluck('details')->first();
+                //  $error_details = DB::connection('oracle')->select("SELECT ");
                 //   dd($status, $error_details);
                 ///editTable/{table_name}/{col_count}
 
@@ -818,16 +818,16 @@ class TestController extends Controller
     {
         $table_owner = 'DSS';
         $rows_ids = [];
-        $table_rows_ids = DB::connection('mysql2')->select("SELECT ROWIDTOCHAR(ROWID) FROM CT_MAPPINGS WHERE table_name = '$table_name'");
+        $table_rows_ids = DB::connection('oracle')->select("SELECT ROWIDTOCHAR(ROWID) FROM CT_MAPPINGS WHERE table_name = '$table_name'");
         foreach ($table_rows_ids as $row_id) {
             $array = get_object_vars($row_id);
             $id = array_values($array);
             array_push($rows_ids, $id[0]);
         }
-        $rep_group_id = DB::connection('mysql2')->table('CT_MAPPINGS')->where('table_name', $table_name)->pluck('rep_group_id')->first();
+        $rep_group_id = DB::connection('oracle')->table('CT_MAPPINGS')->where('table_name', $table_name)->pluck('rep_group_id')->first();
         // dd($rep_group_id);
 
-        $table_rows = DB::connection('mysql2')->select("SELECT * FROM CT_MAPPINGS WHERE table_name = '$table_name'");
+        $table_rows = DB::connection('oracle')->select("SELECT * FROM CT_MAPPINGS WHERE table_name = '$table_name'");
 
         $src_id = $table_rows[0]->source_connection_id;
         $col_names = [];
@@ -985,7 +985,7 @@ class TestController extends Controller
         // // dd($row_string);
         if ($col_count != count($table_rows)) {
             $insert_stmt = "INSERT INTO CT_MAPPINGS (table_name, column_name, column_id, column_type, enabled, identity_column, date_range_comparison, source_connection_id, source_schema_name, source_table_name, source_column_name, source_column_type, column_mode, rep_group_id) values ('" . $row_string . "',$rep_group_id)";
-            DB::connection('mysql2')->insert($insert_stmt);
+            DB::connection('oracle')->insert($insert_stmt);
         }
 
         $updates_statements = [];
@@ -1000,10 +1000,10 @@ class TestController extends Controller
             $update_stmt = implode(', ', $update_statement);
             array_push($updates_statements, $update_stmt);
             //   dd($update_stmt);
-            //  DB::connection('mysql2')->statement(DB::raw("UPDATE CT_MAPPINGS SET $update_stmt, updated_at = SYSDATE  WHERE id = $rep_id "));
+            //  DB::connection('oracle')->statement(DB::raw("UPDATE CT_MAPPINGS SET $update_stmt, updated_at = SYSDATE  WHERE id = $rep_id "));
         }
         foreach ($rows_ids as $i => $id) {
-            DB::connection('mysql2')->statement(DB::raw("UPDATE CT_MAPPINGS SET $updates_statements[$i], updated_at = SYSDATE  WHERE ROWIDTOCHAR(ROWID) = '$id'"));
+            DB::connection('oracle')->statement(DB::raw("UPDATE CT_MAPPINGS SET $updates_statements[$i], updated_at = SYSDATE  WHERE ROWIDTOCHAR(ROWID) = '$id'"));
         }
 
         $procedureName = 'CT_TAB_CONF';
@@ -1023,9 +1023,9 @@ class TestController extends Controller
             ],
         ];
 
-        $result = DB::connection('mysql2')->executeProcedure($procedureName, $bindings);
+        $result = DB::connection('oracle')->executeProcedure($procedureName, $bindings);
         if ($status != 0) {
-            $error_details = DB::connection('mysql2')->table('CT_PROCESS_ERROR_LOG')->where('process_id', $exec_out)->pluck('details')->first();
+            $error_details = DB::connection('oracle')->table('CT_PROCESS_ERROR_LOG')->where('process_id', $exec_out)->pluck('details')->first();
             // DB::select(DB::raw("exec GetInventoryDetail :Param1, :Param2"),[
             //     ':Param1' => $param_1,
             //     ':Param2' => $param_2,
@@ -1045,7 +1045,7 @@ class TestController extends Controller
 
     public function create_rep_group(Request $request, $src_id, $new_table_name)
     {
-        $source_connection = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($src_id);
+        $source_connection = DB::connection('oracle')->table('CT_CONNECTIONS')->find($src_id);
         $dest_driver = env('DB_CONNECTION_SECOND');
         $driver = $source_connection->connection_driver;
         $connection_name = $source_connection->connection_name;
@@ -1064,25 +1064,25 @@ class TestController extends Controller
             ]
         );
         $data = array_map('strtoupper', $data);
-        $table = DB::connection('mysql2')->table('CT_MAPPINGS')->where('table_name', $new_table_name)->first();
+        $table = DB::connection('oracle')->table('CT_MAPPINGS')->where('table_name', $new_table_name)->first();
 
         if ($validator->fails()) {
             Alert::warning('Warning', 'There has been errors in the input data')->autoClose(5000000);;
             return Redirect::back()->withErrors($validator);
         } else {
-            if ($dest_driver == 'mysql') {
-                DB::connection('mysql2')->statement(DB::raw("UPDATE CT_REP_GROUPS SET enabled = '" . $data['ENABLED'] . "', frequency_minutes= '" . $data['FREQUENCY_MINUTES'] . "',batch_limit= '" . $data['BATCH_LIMIT'] . "',query_condition= '" . $data['QUERY_CONDITION'] . "', updated_at = NOW()  WHERE id = '" . $table->rep_group_id . "' "));
+            if (strtolower($dest_driver) == 'mysql') {
+                DB::connection('oracle')->statement(DB::raw("UPDATE CT_REP_GROUPS SET enabled = '" . $data['ENABLED'] . "', frequency_minutes= '" . $data['FREQUENCY_MINUTES'] . "',batch_limit= '" . $data['BATCH_LIMIT'] . "',query_condition= '" . $data['QUERY_CONDITION'] . "', updated_at = NOW()  WHERE id = '" . $table->rep_group_id . "' "));
 
             } else {
                 // dd($data['REP_MODE']);
                 $update_statement = "enabled = '" . $data['ENABLED'] . "', frequency_minutes= '" . $data['FREQUENCY_MINUTES'] . "',batch_limit= '" . $data['BATCH_LIMIT'] . "',query_condition= '" . $data['QUERY_CONDITION'] . "', updated_at = SYSDATE";
-                DB::connection('mysql2')->statement(DB::raw("UPDATE CT_REP_GROUPS SET $update_statement WHERE id = '" . $table->rep_group_id . "' "));
+                DB::connection('oracle')->statement(DB::raw("UPDATE CT_REP_GROUPS SET $update_statement WHERE id = '" . $table->rep_group_id . "' "));
 
             }
 
             try {
                 if ($data['QUERY_CONDITION']) {
-                    if ($driver == "oracle") {
+                    if (strtolower($driver) == "oracle") {
 
                         $test_connection = $src_connection->statement(DB::raw('SELECT 1 FROM DUAL WHERE ' . $data['QUERY_CONDITION'] . ''));
                         //   dd(env('DB_CONNECTION'));
@@ -1101,7 +1101,7 @@ class TestController extends Controller
     }
     public function edit_group(Request $request, $rep_id)
     {
-        $record = DB::connection('mysql2')->table('CT_REP_GROUPS')->find($rep_id);
+        $record = DB::connection('oracle')->table('CT_REP_GROUPS')->find($rep_id);
         $data = $request->all();
         $update_statement = [];
         $columns = [];
@@ -1141,7 +1141,7 @@ class TestController extends Controller
         }
         $update_stmt = implode(', ', $update_statement);
 
-        DB::connection('mysql2')->statement(DB::raw("UPDATE CT_REP_GROUPS SET $update_stmt, updated_at = SYSDATE  WHERE id = $rep_id "));
+        DB::connection('oracle')->statement(DB::raw("UPDATE CT_REP_GROUPS SET $update_stmt, updated_at = SYSDATE  WHERE id = $rep_id "));
         Alert::success('Success', 'REP_GROUP Edited successfully');
         return redirect()->route('view_repGroups');
     }
@@ -1158,7 +1158,7 @@ class TestController extends Controller
                 continue;
             } else {
                 array_push($groups_ids, $data["checked_$i"]);
-                $group = DB::connection('mysql2')->table('CT_REP_GROUPS')->find($data["checked_$i"]);
+                $group = DB::connection('oracle')->table('CT_REP_GROUPS')->find($data["checked_$i"]);
                 array_push($groups, $group);
             }
         }
@@ -1184,21 +1184,21 @@ class TestController extends Controller
         $data = array_map('strtoupper', $data);
         $feed_id = 0;
 
-        DB::connection('mysql2')->insert("INSERT INTO CT_FEEDS (feed_name, feed_sequence, enabled) values ('" . $data['feed_name'] . "','" . $data['feed_sequence'] . "','" . $data['enabled'] . "') ");
-        $feed_id_string = DB::connection('mysql2')->table('CT_FEEDS')->latest()->pluck('id')->first();
+        DB::connection('oracle')->insert("INSERT INTO CT_FEEDS (feed_name, feed_sequence, enabled) values ('" . $data['feed_name'] . "','" . $data['feed_sequence'] . "','" . $data['enabled'] . "') ");
+        $feed_id_string = DB::connection('oracle')->table('CT_FEEDS')->latest()->pluck('id')->first();
         $feed_id = str_replace(str_split('\\/:*?"<>|[]'), '', $feed_id_string);
         //dd($feed_id);
         //insert into $dest_table ($dest_data) values ($record_data)
-        DB::connection('mysql2')->statement("UPDATE CT_REP_GROUPS SET feed_id = $feed_id WHERE id IN ($groups_ids_string)");
+        DB::connection('oracle')->statement("UPDATE CT_REP_GROUPS SET feed_id = $feed_id WHERE id IN ($groups_ids_string)");
         for ($i = 0; $i < count($groups_ids); $i++) {
             $priority = "priority_$i";
             $group_id = $groups_ids[$i];
-            $group = DB::connection('mysql2')->table('CT_REP_GROUPS')->find($group_id);
+            $group = DB::connection('oracle')->table('CT_REP_GROUPS')->find($group_id);
             if($group->group_mode == 'FULL_FEED')
             {
-                DB::connection('mysql2')->statement("UPDATE CT_REP_GROUPS SET group_priority_feed = 0 WHERE id = $group_id");
+                DB::connection('oracle')->statement("UPDATE CT_REP_GROUPS SET group_priority_feed = 0 WHERE id = $group_id");
             }else{
-                DB::connection('mysql2')->statement("UPDATE CT_REP_GROUPS SET group_priority_feed = '" . $data[$priority] . "' WHERE id = $group_id");
+                DB::connection('oracle')->statement("UPDATE CT_REP_GROUPS SET group_priority_feed = '" . $data[$priority] . "' WHERE id = $group_id");
             }
 
         }
@@ -1207,7 +1207,7 @@ class TestController extends Controller
     }
     public function updateFeed(Request $request, $feed_id, $count_groups)
     {
-        $record = DB::connection('mysql2')->table('CT_FEEDS')->find($feed_id);
+        $record = DB::connection('oracle')->table('CT_FEEDS')->find($feed_id);
         $data = $request->all();
         $data = array_map('strtoupper', $data);
         $count = count($request->all());
@@ -1218,7 +1218,7 @@ class TestController extends Controller
                 continue;
             } else {
 
-                DB::connection('mysql2')->statement(DB::raw("UPDATE CT_REP_GROUPS SET feed_id = $feed_id, group_priority_feed = " . $request->$new_priority . " WHERE id = " . $data["checked_$i"] . " "));
+                DB::connection('oracle')->statement(DB::raw("UPDATE CT_REP_GROUPS SET feed_id = $feed_id, group_priority_feed = " . $request->$new_priority . " WHERE id = " . $data["checked_$i"] . " "));
             }
         }
         $Feed_data = ["feed_name" => $request->feed_name, "feed_sequence" => $request->feed_sequence, "enabled" => $request->enabled];
@@ -1254,13 +1254,13 @@ class TestController extends Controller
         }
         $update_stmt = implode(', ', $update_statement);
 
-        DB::connection('mysql2')->statement(DB::raw("UPDATE CT_FEEDS SET $update_stmt, updated_at = SYSDATE  WHERE id = $feed_id "));
+        DB::connection('oracle')->statement(DB::raw("UPDATE CT_FEEDS SET $update_stmt, updated_at = SYSDATE  WHERE id = $feed_id "));
         Alert::success('Success', 'Feed Edited successfully');
         return redirect()->route('view_feeds');
     }
     public function feedJob()
     {
-        $feed_ids = DB::connection('mysql2')->table('CT_FEEDS')->where('enabled', 1)->where('deleted_at', '!=', NULL)->pluck('feed_id');
+        $feed_ids = DB::connection('oracle')->table('CT_FEEDS')->where('enabled', 1)->where('deleted_at', '!=', NULL)->pluck('feed_id');
 
     }
 }

@@ -103,7 +103,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Created Tables</span>
+                        <span class="nav-link-text ms-1">Feeds Tables</span>
                     </a>
                 </li>
                 {{-- <li class="nav-item mt-3">
@@ -231,32 +231,41 @@
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a>
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark">Pages</a>
                         </li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Tables</li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Feeds</li>
                     </ol>
-                    <h6 class="font-weight-bolder mb-0">Tables</h6>
+                    <h6 class="font-weight-bolder mb-0">Feeds</h6>
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                         <div class="input-group">
-                            <span class="input-group-text text-body"><i class="fas fa-search"
-                                    aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" placeholder="Type here...">
+
                         </div>
                     </div>
                     <ul class="navbar-nav  justify-content-end">
-                        <li class="nav-item d-flex align-items-center">
-                            <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank"
-                                href="https://www.creative-tim.com/builder/soft-ui?ref=navbar-dashboard">Online
-                                Builder</a>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_connections') }}">Connections</a>
                         </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
-                                <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">Sign In</span>
-                            </a>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_createdTables') }}">Tables</a>
                         </li>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_repGroups') }}">Groups</a>
+                        </li>
+
+                        <li class="sr-only">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_feeds') }}">Feeds</a>
+                        </li>
+
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                                 <div class="sidenav-toggler-inner">
@@ -267,93 +276,11 @@
                             </a>
                         </li>
                         <li class="nav-item px-3 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body p-0">
-                                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                            </a>
+
                         </li>
                         <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-bell cursor-pointer"></i>
-                            </a>
-                            <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
-                                aria-labelledby="dropdownMenuButton">
-                                <li class="mb-2">
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                                        <div class="d-flex py-1">
-                                            <div class="my-auto">
-                                                <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                    <span class="font-weight-bold">New message</span> from Laur
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 ">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    13 minutes ago
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="mb-2">
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                                        <div class="d-flex py-1">
-                                            <div class="my-auto">
-                                                <img src="../assets/img/small-logos/logo-spotify.svg"
-                                                    class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                    <span class="font-weight-bold">New album</span> by Travis Scott
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 ">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    1 day
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                                        <div class="d-flex py-1">
-                                            <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                                <svg width="12px" height="12px" viewBox="0 0 43 36"
-                                                    version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <title>credit-card</title>
-                                                    <g stroke="none" stroke-width="1" fill="none"
-                                                        fill-rule="evenodd">
-                                                        <g transform="translate(-2169.000000, -745.000000)"
-                                                            fill="#FFFFFF" fill-rule="nonzero">
-                                                            <g transform="translate(1716.000000, 291.000000)">
-                                                                <g transform="translate(453.000000, 454.000000)">
-                                                                    <path class="color-background"
-                                                                        d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                        opacity="0.593633743"></path>
-                                                                    <path class="color-background"
-                                                                        d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                                    </path>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                    Payment successfully completed
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 ">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    2 days
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
+
+
                         </li>
                     </ul>
                 </div>
@@ -362,169 +289,114 @@
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-12">
-                    <div class="card mb-4">
-
-                        <div class="card-header d-flex">
-                            <h3 class="text-primary">Created tables</h3>
-                            <div style="margin-left:60%">
-                                <a class="btn bg-gradient-primary" href="{{ url('view_connections') }}"><i
+                <div class="col-md-12 mt-4">
+                    <div class="card">
+                        <div class="card-header pb-0 px-3 d-flex flex-column ms-3">
+                            <h3 class="text-primary">Added Feeds</h3>
+                            <div class="col-md-6 d-flex" style="margin-left:75%">
+                                <a class="btn bg-gradient-primary" href="{{ url('view_repGroups') }}"><i
                                         class="fas fa-plus"></i>&nbsp;&nbsp;Add</a>
+                                <a class="btn bg-gradient-success ms-3" href="{{ url('feed_executer') }}"><i
+                                    class="fas fa-play"></i>&nbsp;&nbsp;Run All</a>
+
                             </div>
+
                         </div>
-                        {{-- <div class="col-11 text-end">
-
-                        </div> --}}
-                        <div class="card-body px-0 pt-0 pb-2">
-                            <div class="table-responsive p-0">
-
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Table Name</th>
-
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Source Connection</th>
-
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Group Mode</th>
-
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Group Name</th>
-
-
-                                            <th class="text-secondary opacity-7"></th>
-                                            <th class="text-secondary opacity-7"></th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php //$tables = array_unique($tables);
-                                        ?>
-                                        @foreach ($tables as $table)
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div style="margin-right: 10%"><br></div>
-                                                        <div class="d-flex flex-column justify-content-center">
-
-                                                            <h6 class="mb-0 text-sm link-primary">
-                                                                {{ $table->table_name }}
-
-
-                                                            </h6>
-
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="align-middle text-center text-sm">
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div style="margin-right: 10%"><br></div>
-                                                        <?php $con = DB::connection('mysql2')
-                                                            ->table('CT_CONNECTIONS')
-                                                            ->find($table->source_connection_id); ?>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <span
-                                                                class="text-xs font-weight-bold ms-5">{{ $con->connection_name }}</span>
-                                                            </h6>
-
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <?php $rep_group = DB::connection('mysql2')
-                                                    ->table('CT_REP_GROUPS')
-                                                    ->find($table->rep_group_id); ?>
-                                                <td class="align-middle text-center">
-                                                    <span
-                                                        class="text-secondary text-xs font-weight-bold">{{ $rep_group->group_mode }}</span>
-                                                </td>
-
-                                                <td class="align-middle text-center">
-                                                    <span
-                                                        class="text-secondary text-xs font-weight-bold">{{ $rep_group->group_name ?? '' }}</span>
-                                                </td>
-                                                {{--
-                                                @if ($table->enabled)
-                                                    <td class="align-middle text-center text-sm">
-                                                        <span class="badge badge-sm bg-gradient-success">Enabled</span>
-                                                    </td>
+                        <div class="card-body pt-4 p-3">
+                            <ul class="list-group">
+                                @foreach ($feeds as $i => $feed)
+                                    <ul class="list-group">
+                                        <li
+                                            class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                            <div class="d-flex flex-column ms-3">
+                                                <h6 class="mb-3 text-sm"> {{ $feed->feed_name }}</h6>
+                                                <span class="mb-2 text-xs">Feed Name: <span
+                                                        class="text-dark font-weight-bold ms-sm-2">{{ $feed->feed_name }}</span></span>
+                                                <span class="mb-2 text-xs">Feed Sequence: <span
+                                                        class="text-dark ms-sm-2 font-weight-bold">
+                                                        {{ $feed->feed_sequence }}</span></span>
+                                                @if ($feed->enabled)
+                                                    <span class="badge badge-sm bg-gradient-success">Enabled</span>
                                                 @else
-                                                    <td class="align-middle text-center text-sm">
-                                                        <span class="badge badge-sm bg-gradient-danger">Disabled</span>
-                                                    </td>
-                                                @endif --}}
+                                                    <span class="badge badge-sm bg-gradient-danger">Disabled</span>
+                                                @endif
 
-                                                <?php $cols = DB::connection('mysql2')->select("SELECT * FROM CT_MAPPINGS WHERE table_name = '$table->table_name'");
-                                                $col_count = count($cols); ?>
-                                                <td class="align-middle">
-                                                    <a href="{{ url('editTable') }}/{{ $table->table_name }}/{{ $col_count }}/{{ $rep_group->group_mode }}"
-                                                        class="text-primary font-weight-bold text-xs"
-                                                        data-toggle="tooltip" data-original-title="Edit">
-                                                        Edit
-                                                    </a>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <a href="{{ url('deleteTable') }}/{{ $table->table_name }}"
-                                                        class="text-danger font-weight-bold text-xs"
-                                                        data-toggle="tooltip" data-original-title="Delete">
-                                                        Remove
-                                                    </a>
-                                                </td>
+                                            </div>
+                                            <div class="d-flex flex-column ms-8">
+                                                <?php $feed_groups = DB::connection('oracle')->select("SELECT group_name FROM CT_REP_GROUPS WHERE feed_id = $feed->id"); ?>
+                                                <h6 class="mb-3 text-sm"> Groups</h6>
+                                                @if ($feed_groups == null)
+                                                    <span class="mb-2 text-danger text-xs"> No Groups in this feed
+                                                    @else
+                                                        @foreach ($feed_groups as $feed_group)
+                                                            <span class="mb-2 text-xs">*<span
+                                                                    class="text-dark font-weight-bold ms-sm-2">{{ $feed_group->group_name }}</span></span>
+                                                        @endforeach
+                                                @endif
 
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+
+
+
+                                            </div>
+                                            <div class="ms-auto text-end">
+                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0"
+                                                    href="{{ url('deleteFeed') }}/{{ $feed->id }}"><i
+                                                        class="far fa-trash-alt me-2"></i>Delete</a>
+                                                <a class="btn btn-link text-dark px-3 mb-0"
+                                                    href="{{ url('editFeed') }}/{{ $feed->id }}"><i
+                                                        class="fas fa-pencil-alt text-dark me-2"
+                                                        aria-hidden="true"></i>Edit</a>
+                                            </div>
+                                        </li>
+                                @endforeach
+                            </ul>
+
+
                         </div>
                     </div>
                 </div>
             </div>
 
-            <footer class="footer pt-3  ">
-                <div class="container-fluid">
-                    <div class="row align-items-center justify-content-lg-between">
-                        <div class="col-lg-6 mb-lg-0 mb-4">
-                            <div class="copyright text-center text-sm text-muted text-lg-start">
-                                ©
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script>,
-                                made with <i class="fa fa-heart"></i> by
-                                <a href="https://www.creative-tim.com" class="font-weight-bold"
-                                    target="_blank">Creative Tim</a>
-                                for a better web.
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com" class="nav-link text-muted"
-                                        target="_blank">Creative Tim</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted"
-                                        target="_blank">About Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/blog" class="nav-link text-muted"
-                                        target="_blank">Blog</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted"
-                                        target="_blank">License</a>
-                                </li>
-                            </ul>
+        </div>
+
+        <footer class="footer pt-3  ">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                        <div class="copyright text-center text-sm text-muted text-lg-start">
+                            ©
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script>,
+                            made with <i class="fa fa-heart"></i> by
+                            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative
+                                Tim</a>
+                            for a better web.
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link text-muted"
+                                    target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted"
+                                    target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/blog" class="nav-link text-muted"
+                                    target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted"
+                                    target="_blank">License</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </footer>
+            </div>
+        </footer>
         </div>
     </main>
     <div class="fixed-plugin">

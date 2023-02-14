@@ -1,6 +1,6 @@
 <!--
 =========================================================
-* Soft UI Dashboard - v1.0.6
+* Reporting solution - v1.0.6
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/soft-ui-dashboard
@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        Soft UI Dashboard by Creative Tim
+        Reporting solution by Creative Tim
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -46,7 +46,7 @@
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html "
                 target="_blank">
                 <img src="../assets/img/pearson_p.ico" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold">Soft UI Dashboard</span>
+                <span class="ms-1 font-weight-bold">Reporting solution</span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -78,7 +78,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
-                </li>
+                {{-- </li>
                 <li class="nav-item">
                     <a class="nav-link  " href="../pages/tables.html">
                         <div
@@ -285,10 +285,10 @@
                             </svg>
                         </div>
                         <span class="nav-link-text ms-1">Sign Up</span>
-                    </a>
+                    </a> --}}
                 </li>
             </ul>
-        </div>
+        {{-- </div>
         <div class="sidenav-footer mx-3 ">
             <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">
                 <div class="full-background"
@@ -309,41 +309,49 @@
             </div>
             <a class="btn bg-gradient-primary mt-3 w-100"
                 href="https://www.creative-tim.com/product/soft-ui-dashboard-pro?ref=sidebarfree">Upgrade to pro</a>
-        </div>
+        </div> --}}
     </aside>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        {{-- <!-- Navbar -->
+        <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
             navbar-scroll="true">
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
-                                href="javascript:;">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Billing</li>
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark">Pages</a>
+                        </li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Edit Connection</li>
                     </ol>
-                    <h6 class="font-weight-bolder mb-0">Billing</h6>
+                    <h6 class="font-weight-bolder mb-0">Edit {{ $connections->connection_name }}</h6>
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                         <div class="input-group">
-                            <span class="input-group-text text-body"><i class="fas fa-search"
-                                    aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" placeholder="Type here...">
+
                         </div>
                     </div>
                     <ul class="navbar-nav  justify-content-end">
-                        <li class="nav-item d-flex align-items-center">
-                            <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank"
-                                href="https://www.creative-tim.com/builder/soft-ui?ref=navbar-dashboard">Online
-                                Builder</a>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1" href="{{ url('view_connections') }}">Connections</a>
                         </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
-                                <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">Sign In</span>
-                            </a>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_createdTables') }}">Tables</a>
                         </li>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_repGroups') }}">Groups</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_feeds') }}">Feeds</a>
+                        </li>
+
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                                 <div class="sidenav-toggler-inner">
@@ -354,105 +362,24 @@
                             </a>
                         </li>
                         <li class="nav-item px-3 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body p-0">
-                                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                            </a>
+
                         </li>
                         <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-bell cursor-pointer"></i>
-                            </a>
-                            <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
-                                aria-labelledby="dropdownMenuButton">
-                                <li class="mb-2">
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                                        <div class="d-flex py-1">
-                                            <div class="my-auto">
-                                                <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                    <span class="font-weight-bold">New message</span> from Laur
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 ">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    13 minutes ago
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="mb-2">
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                                        <div class="d-flex py-1">
-                                            <div class="my-auto">
-                                                <img src="../assets/img/small-logos/logo-spotify.svg"
-                                                    class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                    <span class="font-weight-bold">New album</span> by Travis Scott
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 ">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    1 day
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                                        <div class="d-flex py-1">
-                                            <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                                <svg width="12px" height="12px" viewBox="0 0 43 36"
-                                                    version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <title>credit-card</title>
-                                                    <g stroke="none" stroke-width="1" fill="none"
-                                                        fill-rule="evenodd">
-                                                        <g transform="translate(-2169.000000, -745.000000)"
-                                                            fill="#FFFFFF" fill-rule="nonzero">
-                                                            <g transform="translate(1716.000000, 291.000000)">
-                                                                <g transform="translate(453.000000, 454.000000)">
-                                                                    <path class="color-background"
-                                                                        d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                        opacity="0.593633743"></path>
-                                                                    <path class="color-background"
-                                                                        d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                                    </path>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                    Payment successfully completed
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 ">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    2 days
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
+
+
                         </li>
                     </ul>
                 </div>
             </div>
-        </nav> --}}
+        </nav>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
                 {{-- <div class="col-lg-8"> --}}
                 <div class="row">
 
-                    <form action="{{ url('updateFeed') }}/{{ $feed->id }}/{{ $count_groups }}" method="get">
+
+                    <form action="{{ route('editEnv', $connections->id) }}" method="get">
                         {{-- {{ csrf_field() }} --}}
                         {{-- @csrf --}}
                         <div class="col-md-12 mb-lg-0 mb-4">
@@ -460,286 +387,28 @@
                                 <div class="card-header pb-0 p-3">
                                     <div class="row">
                                         <div class="col-6 d-flex align-items-center">
-                                            <h3 class="text-primary mb-2">Add Extra Groups
-                                            </h3>
+                                            <h3 class="text-primary mb-2">{{ $connections->connection_name }}
+                                                Connection</h3>
                                         </div>
-
+                                        <div class="col-6 text-end">
+                                            <a class="btn bg-gradient-danger mb-0"
+                                                href="{{ route('deleteConnection', $connections->id) }}"><i
+                                                    class="fas fa-minus"></i>&nbsp;&nbsp;Remove Connection</a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="table-responsive p-0">
-
-                                            <table class="table align-items-center mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                        </th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Group Name</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Repetetion Mode</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Priority</th>
-
-                                                        {{--
-
-                                                        <th class="text-secondary opacity-7"></th> --}}
-
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    @foreach ($groups as $i => $group)
-                                                        <tr>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-                                                                    <div style="margin-right: 10%"><br></div>
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <input type="hidden" value="0"
-                                                                            name="checked_{{ $i }}">
-                                                                        @if ($group->feed_id == null)
-                                                                            <input name="checked_{{ $i }}"
-                                                                                type="checkbox"
-                                                                                value="{{ $group->id }}">
-                                                                        @else
-                                                                        @endif
-
-
-                                                                        </h6>
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-                                                                    <div style="margin-right: 10%"><br></div>
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <h6 class="mb-0 text-sm link-primary">
-                                                                            {{ $group->group_name }}
-
-                                                                        </h6>
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-                                                                    <div style="margin-right: 10%"><br></div>
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <h6 class="mb-0 text-sm link-primary">
-                                                                            {{ $group->group_mode }}
-
-                                                                        </h6>
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-
-
-                                                                        <input type="number"
-                                                                            name="new_priority_{{ $i }}"
-                                                                            class="form-control"
-                                                                            placeholder="eg: 1, 2..">
-
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-
-
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                {{--
-                                <div class="col-md-4 mb-md-2 mb-4 mt-4">
-
-                                    <div class="col-6 text-end" style="margin-left:240%">
-                                        <div class="input-group">
-                                            <button type="submit" class="btn bg-gradient-primary mb-0 ml-4"
-                                                style="width:100%"><i class="fas fa-plus"></i>Proceed</button>
-                                        </div>
-                                    </div>
-
-                                </div> --}}
-                            </div>
-                            <div class="card mt-4">
-                                <div class="card-header pb-0 p-3">
                                     <div class="row">
-                                        <div class="col-6 d-flex align-items-center">
-                                            <h3 class="text-primary mb-2">Edit Group Priority
-                                            </h3>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="card-body p-3">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="table-responsive p-0">
-
-                                            <table class="table align-items-center mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Group Name</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Repetetion Mode</th>
-                                                        <th
-                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
-                                                            Priority</th>
-
-
-
-                                                        <th class="text-secondary opacity-7"></th>
-
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    @foreach ($used_groups as $i => $group)
-                                                        <tr>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-                                                                    <div style="margin-right: 10%"><br></div>
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <h6 class="mb-0 text-sm link-primary">
-                                                                            {{ $group->group_name }}
-
-                                                                        </h6>
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-                                                                    <div style="margin-right: 10%"><br></div>
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-                                                                        <h6 class="mb-0 text-sm link-primary">
-                                                                            {{ $group->group_mode }}
-
-                                                                        </h6>
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-
-
-                                                                        @if ($group->group_mode == 'MANUAL')
-                                                                            <input type="number"
-                                                                                name="priority_{{ $i }}"
-                                                                                class="form-control"
-                                                                                placeholder="{{ $group->group_priority_feed }}"
-                                                                                min="9000">
-                                                                        @elseif($group->group_mode == 'FULL_FEED')
-                                                                            <input type="number"
-                                                                                name="priority_{{ $i }}"
-                                                                                class="form-control"
-                                                                                placeholder="{{ $group->group_priority_feed }}"
-                                                                                value="0">
-                                                                        @else
-                                                                            <input type="number"
-                                                                                name="priority_{{ $i }}"
-                                                                                class="form-control"
-                                                                                placeholder="{{ $group->group_priority_feed }}"
-                                                                                min="1">
-                                                                        @endif
-
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-
-                                                                    <div
-                                                                        class="d-flex flex-column justify-content-center">
-
-
-                                                                        <a href="{{ url('removeGroupFromFeed') }}/{{ $group->id }}"
-                                                                            class="text-danger text-xs">Remove group
-                                                                        </a>
-
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                {{--
-                                <div class="col-md-4 mb-md-2 mb-4 mt-4">
-
-                                    <div class="col-6 text-end" style="margin-left:240%">
-                                        <div class="input-group">
-                                            <button type="submit" class="btn bg-gradient-primary mb-0 ml-4"
-                                                style="width:100%"><i class="fas fa-plus"></i>Proceed</button>
-                                        </div>
-                                    </div>
-
-                                </div> --}}
-                            </div>
-                            <div class="card mt-4">
-                                <div class="card-header pb-0 p-3">
-                                    <div class="row">
-                                        <div class="col-6 d-flex align-items-center">
-                                            <h3 class="text-primary mb-2">Edit The Feed
-                                            </h3>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="card-body p-3">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col-md-4 mb-md-1 mb-4">
-                                            <h6 class="mb-0">Feed Name</h6>
+                                        <div class="col-md-0 mb-md-1 mb-4">
+                                            <h6 class="mb-0">Connection Name</h6>
 
 
                                             <div class="input-group">
 
-                                                <input type="text" name="feed_name" class="form-control"
-                                                    placeholder="{{ $feed->feed_name }}">
-                                                @if ($errors->has('feed_name'))
-                                                    <div class="error">{{ $errors->first('feed_name') }}
+                                                <input type="text" name="DB_CONNECTION_NAME" class="form-control"
+                                                    placeholder={{ $connections->connection_name }}>
+                                                @if ($errors->has('DB_CONNECTION_NAME'))
+                                                    <div class="error">{{ $errors->first('DB_CONNECTION_NAME') }}
                                                     </div>
                                                 @endif
 
@@ -747,78 +416,135 @@
 
                                         </div>
                                         <div class="col-md-4 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Feed Sequence</h6>
-
+                                            <h6 class="mb-0">Engine</h6>
 
                                             <div class="input-group">
 
-                                                <input type="text" name="feed_sequence" class="form-control"
-                                                    placeholder="{{ $feed->feed_sequence }}">
-                                                @if ($errors->has('feed_sequence'))
-                                                    <div class="error">{{ $errors->first('feed_sequence') }}
-                                                    </div>
+                                                <select name="DB_CONNECTION" id="DB_CONNECTION" class="form-control">
+                                                    <option value="" selected>
+                                                        {{ $connections->connection_driver }}</option>
+                                                    <option value="oracle">Oracle</option>
+                                                    <option value="mysql">MYSQL</option>
+                                                    {{-- <option value="pgsql">pgsql</option>
+                                                        <option value="sqlsrv">sqlsrv</option> --}}
+
+                                                </select>
+                                                @if ($errors->has('DB_CONNECTION'))
+                                                    <div class="error">{{ $errors->first('DB_CONNECTION') }}</div>
                                                 @endif
 
                                             </div>
 
                                         </div>
                                         <div class="col-md-4 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Enabled</h6>
+                                            <h6 class="mb-0">Host</h6>
 
 
                                             <div class="input-group">
-                                                <input type="hidden" value="{{ $feed->enabled }}" name="enabled">
-                                                <input name="enabled" type="checkbox" value="1">
 
-                                                @if ($errors->has('enabled'))
-                                                    <div class="error">
-                                                        {{ $errors->first('enabled') }}
-                                                    </div>
+                                                <input type="text" name="DB_HOST" class="form-control"
+                                                    placeholder={{ $connections->connection_host }}>
+                                                @if ($errors->has('DB_HOST'))
+                                                    <div class="error">{{ $errors->first('DB_HOST') }}</div>
                                                 @endif
 
-                                                <br>
+                                            </div>
 
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Port</h6>
+
+
+                                            <div class="input-group">
+
+                                                <input type="number" name="DB_PORT" class="form-control"
+                                                    placeholder={{ $connections->connection_port }}>
+                                                @if ($errors->has('DB_PORT'))
+                                                    <div class="error">{{ $errors->first('DB_PORT') }}</div>
+                                                @endif
 
                                             </div>
 
                                         </div>
 
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Username</h6>
 
-                                        <div class="col-md-4 mb-md-2 mb-4 mt-4 d-flex justify-content">
 
+                                            <div class="input-group">
 
+                                                <input type="text" name="DB_USERNAME" class="form-control"
+                                                    placeholder="">
+                                                @if ($errors->has('DB_USERNAME'))
+                                                    <div class="error">{{ $errors->first('DB_USERNAME') }}</div>
+                                                @endif
 
-                                            <button type="submit" class="btn bg-gradient-primary mb-0 ml-4 ms-2"
-                                                style="width:50%"><i class="fas fa-plus"></i> Save
-                                            </button>
+                                            </div>
 
                                         </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Password</h6>
 
+
+                                            <div class="input-group">
+
+                                                <input type="password" name="DB_PASSWORD" class="form-control"
+                                                    placeholder="">
+                                                @if ($errors->has('DB_PASSWORD'))
+                                                    <div class="error">{{ $errors->first('DB_PASSWORD') }}</div>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Database Name</h6>
+
+
+                                            <div class="input-group">
+
+                                                <input type="text" name="DB_DATABASE" class="form-control"
+                                                    placeholder={{ $connections->database_name }}>
+                                                @if ($errors->has('DB_DATABASE'))
+                                                    <div class="error">{{ $errors->first('DB_DATABASE') }}</div>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-8 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Schema (Optional)</h6>
+
+
+                                            <div class="input-group">
+
+                                                <input type="text" name="DB_SCHEMA_NAME" class="form-control"
+                                                    placeholder={{ $connections->schema_name ?? 'Schema name' }}>
+                                                @if ($errors->has('DB_SCHEMA_NAME'))
+                                                    <div class="error">{{ $errors->first('DB_SCHEMA_NAME') }}</div>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4 mt-4">
+
+                                            <div class="input-group">
+                                                <button type="submit" class="btn bg-gradient-primary mb-0 ml-4"
+                                                    style="width:100%"><i class="fas fa-plus"></i> Save
+                                                    Changes</button>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
-                                {{--
-
-
-                                <div class="col-md-4 mb-md-2 mb-4 mt-4">
-
-                                    <div class="col-6 text-end" style="margin-left:240%">
-                                        <div class="input-group">
-                                            <button type="submit" class="btn bg-gradient-primary mb-0 ml-4"
-                                                style="width:100%"><i class="fas fa-plus"></i>Proceed</button>
-                                        </div>
-                                    </div>
-
-                                </div> --}}
                             </div>
                         </div>
                     </form>
+
                 </div>
+                {{-- </div> --}}
             </div>
-
-
-        </div>
-        {{-- </div> --}}
-        </div>
         </div>
     </main>
     {{-- <div class="col-lg-4">

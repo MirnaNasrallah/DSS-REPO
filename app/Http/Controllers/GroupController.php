@@ -28,7 +28,7 @@ class GroupController extends Controller
 {
     public function create_rep_group(Request $request, $src_id, $new_table_name)
     {
-        $source_connection = DB::connection('mysql2')->table('CT_CONNECTIONS')->find($src_id);
+        $source_connection = DB::connection('oracle')->table('CT_CONNECTIONS')->find($src_id);
         $dest_driver = env('DB_CONNECTION_SECOND');
         $driver = $source_connection->connection_driver;
         $connection_name = $source_connection->connection_name;
@@ -41,49 +41,35 @@ class GroupController extends Controller
             [
                 "FREQUENCY_MINUTES" => "required|numeric",
                 "BATCH_LIMIT" => "nullable|numeric",
-                "REP_MODE" => "nullable|string",
                 "ENABLED" => "boolean|nullable",
                 "QUERY_CONDITION" =>  "nullable|string",
 
             ]
         );
-        $data = array_map('strtoupper', $data);
-        $table = DB::connection('mysql2')->table('CT_MAPPINGS')->where('table_name', $new_table_name)->first();
-        // if ($table->lookup_table == 1) {
-        //     $group_name = strtoupper($new_table_name . "_FF");
-        // } else {
-        //     $group_name = strtoupper($new_table_name . "_DR");
-        // }
+        $query_condition = str_replace("'", "''", $data['QUERY_CONDITION']);
+        $table = DB::connection('oracle')->table('CT_MAPPINGS')->where('table_name', $new_table_name)->first();
+
+
         if ($validator->fails()) {
             Alert::warning('Warning', 'There has been errors in the input data')->autoClose(5000000);;
             return Redirect::back()->withErrors($validator);
         } else {
-            if ($dest_driver == 'mysql') {
-                DB::connection('mysql2')->statement(DB::raw("UPDATE CT_REP_GROUPS SET enabled = '" . $data['ENABLED'] . "', group_mode = '" . $data['REP_MDOE'] . "',frequency_minutes= '" . $data['FREQUENCY_MINUTES'] . "',batch_limit= '" . $data['BATCH_LIMIT'] . "',query_condition= '" . $data['QUERY_CONDITION'] . "', updated_at = NOW()  WHERE id = '" . $table->rep_group_id . "' "));
-                // $insert_stmt = "insert ignore into CT_REP_GROUPS (group_name, enabled, mode, connection_id, frequency_minutes, batch_limit, query_condition, created_at, updated_at) values ('" . $group_name . "','" . $data['ENABLED'] . "','" . $data['REP_MDOE'] . "','" . $src_id . "','" . $data['FREQUENCY_MINUTES'] . "','" . $data['BATCH_LIMIT'] . "','" . $data['QUERY_CONDITION'] . "', NOW(), NOW())";
-                // DB::connection('mysql2')->insert($insert_stmt);
-                // $new_rep_group_id = DB::connection('mysql2')->table('CT_REP_GROUPS')->latest()->pluck('id')->first();
-                // DB::connection('mysql2')->statement(DB::raw('UPDATE CT_MAPPINGS SET rep_group_id = "' . $new_rep_group_id . '" WHERE table_name  = ' . $new_table_name . ' '));
+            if (strtolower($dest_driver) == 'mysql') {
+                DB::connection('oracle')->statement(DB::raw("UPDATE CT_REP_GROUPS SET enabled = '" . $data['ENABLED'] . "', frequency_minutes= '" . $data['FREQUENCY_MINUTES'] . "',batch_limit= '" . $data['BATCH_LIMIT'] . "',query_condition= '" . $query_condition . "', updated_at = NOW()  WHERE id = '" . $table->rep_group_id . "' "));
             } else {
                 // dd($data['REP_MODE']);
-                $update_statement = "enabled = '" . $data['ENABLED'] . "', frequency_minutes= '" . $data['FREQUENCY_MINUTES'] . "',batch_limit= '" . $data['BATCH_LIMIT'] . "',query_condition= '" . $data['QUERY_CONDITION'] . "', updated_at = SYSDATE";
-                DB::connection('mysql2')->statement(DB::raw("UPDATE CT_REP_GROUPS SET $update_statement WHERE id = '" . $table->rep_group_id . "' "));
-                // $insert_stmt = "insert into CT_REP_GROUPS (group_name, enabled, rep_mode, connection_id, frequency_minutes, batch_limit, query_condition, created_at, updated_at) values ('" . $group_name . "','" . $data['ENABLED'] . "','" . $data['REP_MODE'] . "','" . $src_id . "','" . $data['FREQUENCY_MINUTES'] . "','" . $data['BATCH_LIMIT'] . "','" . $data['QUERY_CONDITION'] . "', SYSDATE, SYSDATE)";
-                // // $insert_stmt = "insert into CT_REP_GROUPS values ('" . $group_name . "','" . $data['ENABLED'] . "','" . $data['REP_MODE'] . "','" . $src_id . "','" . $data['FREQUENCY_MINUTES'] . "','" . $data['BATCH_LIMIT'] . "','" . $data['QUERY_CONDITION'] . "', SYSDATE, SYSDATE)";
-                // DB::connection('mysql2')->insert($insert_stmt);
-                // $new_rep_group_id = DB::connection('mysql2')->table('CT_REP_GROUPS')->latest()->pluck('id')->first();
-                // $update_statement = "UPDATE CT_MAPPINGS SET rep_group_id = '" . $new_rep_group_id . "' WHERE table_name  = '" . $new_table_name . "' ";
-                // DB::connection('mysql2')->statement(DB::raw($update_statement));
+                $update_statement = "enabled = '" . $data['ENABLED'] . "', frequency_minutes= '" . $data['FREQUENCY_MINUTES'] . "',batch_limit= '" . $data['BATCH_LIMIT'] . "',query_condition= '" . $query_condition . "', updated_at = SYSDATE";
+                DB::connection('oracle')->statement(DB::raw("UPDATE CT_REP_GROUPS SET $update_statement WHERE id = '" . $table->rep_group_id . "' "));
             }
 
             try {
                 if ($data['QUERY_CONDITION']) {
-                    if ($driver == "oracle") {
+                    if (strtolower($driver) == "oracle") {
 
-                        $test_connection = $src_connection->statement(DB::raw('SELECT 1 FROM DUAL WHERE ' . $data['QUERY_CONDITION'] . ''));
+                        $test_connection = $src_connection->statement(DB::raw('SELECT 1 FROM DUAL ' . $data['QUERY_CONDITION'] . ''));
                         //   dd(env('DB_CONNECTION'));
                     } else {
-                        $test_connection = $src_connection->statement(DB::raw('SELECT 1+1 WHERE ' . $data['QUERY_CONDITION'] . ''));
+                        $test_connection = $src_connection->statement(DB::raw('SELECT 1+1 ' . $data['QUERY_CONDITION'] . ''));
                         //    dd($test);
                     }
                 }
@@ -91,13 +77,13 @@ class GroupController extends Controller
                 return redirect()->route('view_repGroups');
             } catch (Exception $e) {
                 Alert::error('Error', $e->getMessage())->autoClose(5000000);
-                return redirect()->back();
+                return redirect()->route('editRepGroup', [$table->rep_group_id]);
             }
         }
     }
     public function edit_group(Request $request, $rep_id)
     {
-        $record = DB::connection('mysql2')->table('CT_REP_GROUPS')->find($rep_id);
+        $record = DB::connection('oracle')->table('CT_REP_GROUPS')->find($rep_id);
         $data = $request->all();
         $update_statement = [];
         $columns = [];
@@ -105,18 +91,11 @@ class GroupController extends Controller
         $data = array_map('strtoupper', $data);
 
         foreach ($data as $key => $value) {
-            if ($key == 'group_name') {
-                $FF = strpos($data['group_name'], '_FF');
-                $DR = strpos($data['group_name'], '_DR');
-                if ($FF) {
-                    $value = $value . "_FF";
-                    array_push($columns, $key);
-                    array_push($values, $value);
-                } elseif ($DR) {
-                    $value = $value . "_DR";
-                    array_push($columns, $key);
-                    array_push($values, $value);
-                }
+            if (strtolower($key) == 'rep_mode') {
+
+                $key = 'group_mode';
+                array_push($columns, $key);
+                array_push($values, $value);
             }
 
             if ($value === null) {
@@ -143,14 +122,14 @@ class GroupController extends Controller
         }
         $update_stmt = implode(', ', $update_statement);
 
-        DB::connection('mysql2')->statement(DB::raw("UPDATE CT_REP_GROUPS SET $update_stmt, updated_at = SYSDATE  WHERE id = $rep_id "));
+        DB::connection('oracle')->statement(DB::raw("UPDATE CT_REP_GROUPS SET $update_stmt, updated_at = SYSDATE  WHERE id = $rep_id "));
         Alert::success('Success', 'REP_GROUP Edited successfully');
         return redirect()->route('view_repGroups');
     }
     public function removeGroupFromFeed($id)
     {
-        $group = DB::connection('mysql2')->table('CT_REP_GROUPS')->find($id);
-        DB::connection('mysql2')->statement(DB::raw("UPDATE CT_REP_GROUPS SET feed_id = NULL, group_priority_feed = NULL WHERE id = $id "));
+        $group = DB::connection('oracle')->table('CT_REP_GROUPS')->find($id);
+        DB::connection('oracle')->statement(DB::raw("UPDATE CT_REP_GROUPS SET feed_id = NULL, group_priority_feed = NULL WHERE id = $id "));
         Alert::success('Success', 'Group Removed successfully');
         return redirect()->back();
     }
@@ -160,13 +139,61 @@ class GroupController extends Controller
         $result = $date->format('Y-m-d H:i:s');
         $result = str_replace(['-', ' ', ':'], "", $result);
 
-        $grp_name = DB::connection('mysql2')->table('CT_REP_GROUPS')->where('id', $id)->pluck('group_name')->first();
+        $grp_name = DB::connection('oracle')->table('CT_REP_GROUPS')->where('id', $id)->pluck('group_name')->first();
+        $tb_name = DB::connection('oracle')->table('CT_MAPPINGS')->where('rep_group_id', $id)->pluck('table_name')->first();
         $group_name = $result . '_' . $grp_name;
-        //  DB::connection('mysql2')->statement(DB::raw('UPDATE CT_CONNECTIONS SET deleted_at = NOW(), connection_name = "' . $result . '_' . $con_name . '"  WHERE id = "' . $id . '"'));
+        $new_table_name = $result . '_' . $tb_name;
+        //  DB::connection('oracle')->statement(DB::raw('UPDATE CT_CONNECTIONS SET deleted_at = NOW(), connection_name = "' . $result . '_' . $con_name . '"  WHERE id = "' . $id . '"'));
         $delete_stmt = "group_name = '" . $group_name . "', feed_id = NULL, group_priority_feed = NULL, deleted_at = SYSDATE";
-        DB::connection('mysql2')->statement(DB::raw('UPDATE CT_REP_GROUPS SET ' . $delete_stmt . ' WHERE id = ' . $id . ' '));
-        //  DB::connection('mysql2')->update("UPDATE CT_CONNECTIONS SET deleted_at = SYSDATE, connection_name = ?, WHERE id = ?",["'$connection_name'","'$id'"]);
+        DB::connection('oracle')->statement(DB::raw('UPDATE CT_REP_GROUPS SET ' . $delete_stmt . ' WHERE id = ' . $id . ' '));
+        $table_delete_stmt = "deleted_at = SYSDATE, table_name = '" . $new_table_name . "', rep_group_id = NULL";
+        DB::connection('oracle')->statement(DB::raw("UPDATE CT_MAPPINGS SET $table_delete_stmt WHERE table_name = '" . $tb_name . "' "));
+        //  DB::connection('oracle')->update("UPDATE CT_CONNECTIONS SET deleted_at = SYSDATE, connection_name = ?, WHERE id = ?",["'$connection_name'","'$id'"]);
         Alert::success('Success', 'Removed successfully');
         return redirect()->route('view_repGroups');
+    }
+    public function view_group_output($table_name)
+    {
+        //TABLE NAME IS THE VIEW NAME
+        $columns_names = [];
+        $data_rows = [];
+        $data_values = [];
+        //  $table_name = 'DSS.CANDIDATE_SESSIONS_STG';
+        $owner = strtok($table_name, '.');
+        $table = strtok('');
+        $limit = 100;
+        $table_data = DB::connection('oracle')->select("SELECT * FROM $table_name WHERE ROWNUM < $limit");
+        $limit = count($table_data);
+
+        if ($table_data) {
+            $columns = DB::connection('oracle')->select("
+            select column_name from all_tab_columns
+            where table_name = '$table'
+            and owner = '$owner'
+             ");
+            //  dd("table: $table,owner: $owner");
+            foreach ($columns as $col) {
+                $column = strtolower($col->column_name);
+                array_push($columns_names, $column);
+                // dd($table_data[$key],$table_data[$key]->$column);
+            }
+            for ($key = 0; $key < $limit; $key++) {
+                foreach ($columns_names as $column) {
+                    if (array_key_exists($key, $table_data)) {
+                        $data_rows[$column] = $table_data[$key]->$column;
+                    }
+                }
+                $data_values[$key] = $data_rows;
+            }
+            //  dd($data_values, $columns_names, $table_name);
+            return view('view_group_output', compact('data_values', 'columns_names', 'table_name'));
+        } else {
+            Alert::warning('Hold On!', 'The table was not loaded yet');
+            return redirect()->back();
+        }
+
+
+        //    dd($data_values);
+
     }
 }

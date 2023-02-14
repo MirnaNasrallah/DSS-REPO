@@ -1,6 +1,6 @@
 <!--
 =========================================================
-* Reporting solution - v1.0.6
+* Soft UI Dashboard - v1.0.6
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/soft-ui-dashboard
@@ -21,18 +21,18 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        Reporting solution by Creative Tim
+        Soft UI Dashboard by Creative Tim
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
-    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="{{ asset('../assets/css/nucleo-icons.css') }}" rel="stylesheet" />
+    <link href="{{ asset('../assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="{{ asset('../assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.6" rel="stylesheet" />
+    <link id="pagestyle" href="{{ asset('../assets/css/soft-ui-dashboard.css?v=1.0.6') }}" rel="stylesheet" />
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -46,7 +46,7 @@
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html "
                 target="_blank">
                 <img src="../assets/img/pearson_p.ico" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold">Reporting solution</span>
+                <span class="ms-1 font-weight-bold">Soft UI Dashboard</span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -79,7 +79,7 @@
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link  " href="../pages/tables.html">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -226,6 +226,7 @@
                         <span class="nav-link-text ms-1">Profile</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link  " href="../pages/sign-in.html">
                         <div
@@ -285,10 +286,10 @@
                         </div>
                         <span class="nav-link-text ms-1">Sign Up</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
-        <div class="sidenav-footer mx-3 ">
+        {{-- <div class="sidenav-footer mx-3 ">
             <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">
                 <div class="full-background"
                     style="background-image: url('../assets/img/curved-images/white-curved.jpg')"></div>
@@ -308,201 +309,299 @@
             </div>
             <a class="btn bg-gradient-primary mt-3 w-100"
                 href="https://www.creative-tim.com/product/soft-ui-dashboard-pro?ref=sidebarfree">Upgrade to pro</a>
-        </div>
+        </div> --}}
     </aside>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+            navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark">Pages</a>
+                        </li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Create Feed</li>
+                    </ol>
+                    <h6 class="font-weight-bolder mb-0">Create Feed</h6>
+                </nav>
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                        <div class="input-group">
 
+                        </div>
+                    </div>
+                    <ul class="navbar-nav  justify-content-end">
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1" href="{{ url('view_connections') }}">Connections</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_createdTables') }}">Tables</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_repGroups') }}">Groups</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_feeds') }}">Feeds</a>
+                        </li>
+
+                        <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                            <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                                <div class="sidenav-toggler-inner">
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item px-3 d-flex align-items-center">
+
+                        </li>
+                        <li class="nav-item dropdown pe-2 d-flex align-items-center">
+
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div class="container-fluid py-4">
             <div class="row">
                 {{-- <div class="col-lg-8"> --}}
                 <div class="row">
 
-
-
-
-                    <div class="col-md-12 mb-lg-0 mb-4">
-                        <div class="card mt-4">
-                            <form action="{{ route('setEnv') }}" method="get">
+                    <?php $groups_ids_string = implode(', ', $groups_ids); ?>
+                    <form action="{{ route('create_feed', $groups_ids_string) }}" method="get">
+                        {{-- {{ csrf_field() }} --}}
+                        {{-- @csrf --}}
+                        <div class="col-md-12 mb-lg-0 mb-4">
+                            <div class="card mt-4">
                                 <div class="card-header pb-0 p-3">
                                     <div class="row">
                                         <div class="col-6 d-flex align-items-center">
-                                            <h3 class="text-primary mb-2">New Source Connection</h3>
+                                            <h3 class="text-primary mb-2">Set Group Priority
+                                            </h3>
                                         </div>
-
 
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
                                     <div class="row d-flex justify-content-center">
-                                        <div class="col-md-0 mb-md-1 mb-4">
-                                            <h6 class="mb-0">Connection Name</h6>
+                                        <div class="table-responsive p-0">
+
+                                            <table class="table align-items-center mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th
+                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
+                                                            Group Name</th>
+                                                        <th
+                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
+                                                            Repetetion Mode</th>
+                                                        <th
+                                                            class="text-uppercase text-primary text-xs font-weight-bolder opacity-7">
+                                                            Priority</th>
 
 
-                                            <div class="input-group">
-
-                                                <input type="text" name="DB_CONNECTION_NAME" class="form-control"
-                                                    placeholder="Type here...">
-                                                @if ($errors->has('DB_CONNECTION_NAME'))
-                                                    <div class="error">{{ $errors->first('DB_CONNECTION_NAME') }}
-                                                    </div>
-                                                @endif
-
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-4 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Engine</h6>
 
 
-                                            <div class="input-group">
+                                                        {{--
+                                                        <th class="text-secondary opacity-7"></th>
+                                                        <th class="text-secondary opacity-7"></th> --}}
 
-                                                <select name="DB_CONNECTION" id="DB_CONNECTION" class="form-select">
-                                                    <option value="ORACLE">Oracle</option>
-                                                    <option value="MYSQL">MYSQL</option>
-                                                    {{-- <option value="pgsql">pgsql</option>
-                                                        <option value="sqlsrv">sqlsrv</option> --}}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                                </select>
-                                                @if ($errors->has('DB_CONNECTION'))
-                                                    <div class="error">{{ $errors->first('DB_CONNECTION') }}</div>
-                                                @endif
+                                                    @foreach ($groups as $i => $group)
+                                                        <tr>
+                                                            <td>
+                                                                <div class="d-flex px-2 py-1">
+                                                                    <div style="margin-right: 10%"><br></div>
+                                                                    <div
+                                                                        class="d-flex flex-column justify-content-center">
+                                                                        <h6 class="mb-0 text-sm link-primary">
+                                                                            {{ $group->group_name }}
 
-                                            </div>
+                                                                        </h6>
 
-                                        </div>
-                                        <div class="col-md-4 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Host</h6>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="d-flex px-2 py-1">
+                                                                    <div style="margin-right: 10%"><br></div>
+                                                                    <div
+                                                                        class="d-flex flex-column justify-content-center">
+                                                                        <h6 class="mb-0 text-sm link-primary">
+                                                                            {{ $group->group_mode }}
 
+                                                                        </h6>
 
-                                            <div class="input-group">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="d-flex px-2 py-1">
 
-                                                <input type="text" name="DB_HOST" class="form-control"
-                                                    placeholder="Type here...">
-                                                @if ($errors->has('DB_HOST'))
-                                                    <div class="error">{{ $errors->first('DB_HOST') }}</div>
-                                                @endif
+                                                                    <div
+                                                                        class="d-flex flex-column justify-content-center">
 
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-4 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Port</h6>
-
-
-                                            <div class="input-group">
-
-                                                <input type="number" name="DB_PORT" class="form-control"
-                                                    placeholder="Type here...">
-                                                @if ($errors->has('DB_PORT'))
-                                                    <div class="error">{{ $errors->first('DB_PORT') }}</div>
-                                                @endif
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-md-4 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Username</h6>
-
-
-                                            <div class="input-group">
-
-                                                <input type="text" name="DB_USERNAME" class="form-control"
-                                                    placeholder="Type here...">
-                                                @if ($errors->has('DB_USERNAME'))
-                                                    <div class="error">{{ $errors->first('DB_USERNAME') }}</div>
-                                                @endif
-
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-4 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Password</h6>
+                                                                        @if ($group->group_mode == 'MANUAL')
+                                                                            <input type="number"
+                                                                                name="priority_{{ $i }}"
+                                                                                class="form-control"
+                                                                                placeholder="eg: 9000, 9001.."
+                                                                                min="9000">
+                                                                        @elseif($group->group_mode == 'FULL_FEED')
+                                                                            <input type="number"
+                                                                                name="priority_{{ $i }}"
+                                                                                class="form-control" placeholder="0"
+                                                                                value="0">
+                                                                        @else
+                                                                            <input type="number"
+                                                                                name="priority_{{ $i }}"
+                                                                                class="form-control"
+                                                                                placeholder="eg: 1, 2.."
+                                                                                min="1">
+                                                                        @endif
 
 
-                                            <div class="input-group">
-
-                                                <input type="password" name="DB_PASSWORD" class="form-control"
-                                                    placeholder="Type here...">
-                                                @if ($errors->has('DB_PASSWORD'))
-                                                    <div class="error">{{ $errors->first('DB_PASSWORD') }}</div>
-                                                @endif
-
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-4 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Database Name</h6>
 
 
-                                            <div class="input-group">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
 
-                                                <input type="text" name="DB_DATABASE" class="form-control"
-                                                    placeholder="Type here...">
-                                                @if ($errors->has('DB_DATABASE'))
-                                                    <div class="error">{{ $errors->first('DB_DATABASE') }}</div>
-                                                @endif
-
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-8 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Schema (Optional)</h6>
-
-
-                                            <div class="input-group">
-
-                                                <input type="text" name="DB_SCHEMA_NAME" class="form-control"
-                                                    placeholder="Type here...">
-                                                @if ($errors->has('DB_SCHEMA_NAME'))
-                                                    <div class="error">{{ $errors->first('DB_SCHEMA_NAME') }}
-                                                    </div>
-                                                @endif
-
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-4 mb-md-2 mb-4 mt-4">
-
-                                            <div class="input-group">
-                                                <button type="submit" class="btn bg-gradient-primary mb-0 ml-4"
-                                                    style="width:100%"><i class="fas fa-plus"></i> Save
-                                                    Connection</button>
-
-                                            </div>
-
-
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+
+
+                                {{--
+                                <div class="col-md-4 mb-md-2 mb-4 mt-4">
+
+                                    <div class="col-6 text-end" style="margin-left:240%">
+                                        <div class="input-group">
+                                            <button type="submit" class="btn bg-gradient-primary mb-0 ml-4"
+                                                style="width:100%"><i class="fas fa-plus"></i>Proceed</button>
+                                        </div>
+                                    </div>
+
+                                </div> --}}
+                            </div>
+                            <div class="card mt-4">
+                                <div class="card-header pb-0 p-3">
+                                    <div class="row">
+                                        <div class="col-6 d-flex align-items-center">
+                                            <h3 class="text-primary mb-2">Create The Feed
+                                            </h3>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-body p-3">
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-md-4 mb-md-1 mb-4">
+                                            <h6 class="mb-0">Feed Name</h6>
+
+
+                                            <div class="input-group">
+
+                                                <input type="text" name="feed_name" class="form-control"
+                                                    placeholder="Feed Name Here">
+                                                @if ($errors->has('feed_name'))
+                                                    <div class="error">{{ $errors->first('feed_name') }}
+                                                    </div>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Feed Sequence</h6>
+
+
+                                            <div class="input-group">
+
+                                                <input type="number" name="feed_sequence" class="form-control"
+                                                    placeholder="Feed Sequence Here">
+                                                @if ($errors->has('feed_sequence'))
+                                                    <div class="error">{{ $errors->first('feed_sequence') }}
+                                                    </div>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 mb-md-2 mb-4">
+                                            <h6 class="mb-0">Enabled</h6>
+
+
+                                            <div class="form-check form-switch ps-0">
+                                                <input class="form-check-input ms-auto" type="hidden" value="0" name="enabled">
+                                                <input class="form-check-input ms-auto" name="enabled" type="checkbox" value="1">
+
+                                                @if ($errors->has('enabled'))
+                                                    <div class="error">
+                                                        {{ $errors->first('enabled') }}
+                                                    </div>
+                                                @endif
+
+                                                <br>
+
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-md-4 mb-md-2 mb-4 mt-4 d-flex justify-content">
+
+
+
+                                            <button type="submit" class="btn bg-gradient-primary mb-0 ml-4 ms-2"
+                                                style="width:50%"><i class="fas fa-plus"></i> Save
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {{--
+
+
+                                <div class="col-md-4 mb-md-2 mb-4 mt-4">
+
+                                    <div class="col-6 text-end" style="margin-left:240%">
+                                        <div class="input-group">
+                                            <button type="submit" class="btn bg-gradient-primary mb-0 ml-4"
+                                                style="width:100%"><i class="fas fa-plus"></i>Proceed</button>
+                                        </div>
+                                    </div>
+
+                                </div> --}}
+                            </div>
                         </div>
-                    </div>
-
-
+                    </form>
                 </div>
-                {{-- </div> --}}
             </div>
+
+
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Please test your connection to proceed
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
+        {{-- </div> --}}
+        </div>
         </div>
     </main>
     {{-- <div class="col-lg-4">

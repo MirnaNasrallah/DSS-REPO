@@ -311,7 +311,66 @@
         </div>
     </aside>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+            navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark">Pages</a>
+                        </li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Create Group</li>
+                    </ol>
+                    <h6 class="font-weight-bolder mb-0">Create Group</h6>
+                </nav>
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                        <div class="input-group">
 
+                        </div>
+                    </div>
+                    <ul class="navbar-nav  justify-content-end">
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1" href="{{ url('view_connections') }}">Connections</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_createdTables') }}">Tables</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_repGroups') }}">Groups</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center ms-4">
+
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-1"
+                                href="{{ url('view_feeds') }}">Feeds</a>
+                        </li>
+
+                        <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                            <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                                <div class="sidenav-toggler-inner">
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item px-3 d-flex align-items-center">
+
+                        </li>
+                        <li class="nav-item dropdown pe-2 d-flex align-items-center">
+
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div class="container-fluid py-4">
             <div class="row">
                 {{-- <div class="col-lg-8"> --}}
@@ -322,12 +381,12 @@
 
                     <div class="col-md-12 mb-lg-0 mb-4">
                         <div class="card mt-4">
-
-                            <form action="{{ url('/edit_group') }}/{{ $group->id }}" method="get">
+                            <form action="{{ url('/create_rep_group') }}/{{ $src_id }}/{{ $new_table_name }}"
+                                method="get">
                                 <div class="card-header pb-0 p-3">
                                     <div class="row">
                                         <div class="col-6 d-flex align-items-center">
-                                            <h3 class="text-primary mb-2">{{ $group->group_name }} Group</h3>
+                                            <h3 class="text-primary mb-2">{{ $new_table_name }} Group</h3>
                                         </div>
 
 
@@ -341,26 +400,27 @@
 
                                             <div class="input-group">
 
-                                                <input type="number" name="frequency_minutes" class="form-control"
-                                                    placeholder="{{ $group->frequency_minutes }}">
-                                                @if ($errors->has('frequency_minutes'))
-                                                    <div class="error">{{ $errors->first('frequency_minutes') }}
+                                                <input type="number" name="FREQUENCY_MINUTES" class="form-control"
+                                                    placeholder="n minutes">
+                                                @if ($errors->has('FREQUENCY_MINUTES'))
+                                                    <div class="error">{{ $errors->first('FREQUENCY_MINUTES') }}
                                                     </div>
                                                 @endif
 
                                             </div>
 
                                         </div>
+
                                         <div class="col-md-4 mb-md-2 mb-4">
                                             <h6 class="mb-0">Batch Limit</h6>
 
 
                                             <div class="input-group">
 
-                                                <input type="number" name="batch_limit" class="form-control"
-                                                    placeholder="{{ $group->batch_limit }}">
-                                                @if ($errors->has('batch_limit'))
-                                                    <div class="error">{{ $errors->first('batch_limit') }}
+                                                <input type="number" name="BATCH_LIMIT" class="form-control"
+                                                    placeholder="0 for full feed">
+                                                @if ($errors->has('BATCH_LIMIT'))
+                                                    <div class="error">{{ $errors->first('BATCH_LIMIT') }}
                                                     </div>
                                                 @endif
 
@@ -368,30 +428,30 @@
 
                                         </div>
                                         <div class="col-md-4 mb-md-2 mb-4">
-                                            <h6 class="mb-0">Rep Mode</h6>
 
-                                            <div class="d-flex flex-column justify-content-center">
+
+                                            {{-- <div class="d-flex flex-column justify-content-center">
 
                                                 <select name="REP_MODE" id="REP_MODE" class="form-select">
-                                                    <option value="{{ $group->group_mode }}">{{ $group->group_mode }}
+                                                    <option value="null">
                                                     </option>
 
+                                                    @if ($lookup->lookup_table)
+                                                        <option value="FULL_FEED">FULL_FEED</option>
+                                                    @else
                                                         <option value="FULL_FEED">FULL_FEED</option>
 
                                                         <option value="DATE_RANGE">DATE_RANGE
                                                         </option>
-                                                        <option value="MANUAL">Manual
-                                                        </option>
-                                                        <option value="DATE_RANGE">Date_Range
-                                                        </option>
-
+                                                    @endif
 
 
                                                 </select>
 
-                                            </div>
+                                            </div> --}}
 
                                         </div>
+
 
                                         <div class="col-md-8 mb-md-2 mb-4">
                                             <h6 class="mb-0">Query Condition</h6>
@@ -399,26 +459,27 @@
 
                                             <div class="input-group">
 
-                                                <input type="text" name="query_condition" class="form-control"
-                                                    placeholder="{{ $group->query_condition }}">
-                                                @if ($errors->has('query_condition'))
-                                                    <div class="error">{{ $errors->first('query_condition') }}</div>
+                                                <input type="text" name="QUERY_CONDITION" class="form-control"
+                                                    placeholder="Type here...">
+                                                @if ($errors->has('QUERY_CONDITION'))
+                                                    <div class="error">{{ $errors->first('QUERY_CONDITION') }}</div>
                                                 @endif
 
                                             </div>
 
                                         </div>
                                         <div class="col-md-4 mb-md-2 mb-4">
+
                                             <h6 class="mb-0">Enabled</h6>
 
 
-                                            <div class="input-group">
-                                                <input type="hidden" value="{{ $group->enabled }}" name="enabled">
-                                                <input name="enabled" type="checkbox" value="1">
+                                            <div class="form-check form-switch ps-0">
+                                                <input type="hidden" value="0" name="ENABLED">
+                                                <input class="form-check-input ms-auto" name="ENABLED" type="checkbox" value="1">
 
-                                                @if ($errors->has('enabled'))
+                                                @if ($errors->has('ENABLED'))
                                                     <div class="error">
-                                                        {{ $errors->first('enabled') }}
+                                                        {{ $errors->first('ENABLED') }}
                                                     </div>
                                                 @endif
 
@@ -432,13 +493,12 @@
                                         <div class="col-md-4 mb-md-2 mb-4 mt-4 d-flex justify-content">
 
                                             {{-- <div class="input-group"> --}}
-                                            <a href="{{ url('view_repGroups') }}"
-                                                class="btn bg-gradient-secondary mb-0 ml-4 ms-2"
-                                                style="width:50%">>Back</a>
+                                                <a href="{{ url('check_table_connection') }}/{{$src_id}}"
+                                                    class="btn bg-gradient-secondary mb-0 ml-4 ms-2" style="width:50%">>Back</a>
 
-                                            <button type="submit" class="btn bg-gradient-primary mb-0 ml-4 ms-2"
-                                                style="width:50%"><i class="fas fa-plus"></i> Save
-                                            </button>
+                                                <button type="submit" class="btn bg-gradient-primary mb-0 ml-4 ms-2"
+                                                    style="width:50%"><i class="fas fa-plus"></i> Save
+                                                </button>
 
                                             {{-- </div>
                                             <div class="input-group"> --}}
